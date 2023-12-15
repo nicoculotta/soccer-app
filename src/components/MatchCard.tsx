@@ -1,8 +1,7 @@
 "use client";
-import { Delete, DeleteIcon, Trash } from "lucide-react";
+import { Trash } from "lucide-react";
 import React, { useState } from "react";
-import { StringValidation } from "zod";
-import { Avatar, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -12,6 +11,9 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Switch } from "./ui/switch";
+import { useTranslations } from "next-intl";
+import { updateMatchInfo } from "@/lib/firebase";
+import { usePathname, useRouter } from "next/navigation";
 
 interface MatchCardProps {
   date: string;
@@ -22,16 +24,28 @@ interface MatchCardProps {
     avatar: string;
   };
   onDelete: () => void;
+  isActive: boolean;
+  matchId: string;
 }
 
 const MatchCard = ({
+  matchId,
   date,
   title,
   role,
   creator,
   onDelete,
+  isActive,
 }: MatchCardProps) => {
-  const [isActive, setIsActive] = useState(true);
+  const t = useTranslations("homePage");
+  const [isMatchActive, setIsMatchActive] = useState<boolean>(isActive);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleUpdateMatch = async (id: string, value: any) => {
+    setIsMatchActive(value);
+    updateMatchInfo(id, { available: value });
+  };
 
   return (
     <Card>
@@ -50,30 +64,43 @@ const MatchCard = ({
         <div className="w-full flex flex-col gap-2">
           {role === "admin" || role === "super" ? (
             <>
-              <Button disabled={isActive} className="w-full">
-                {isActive ? "Lista no disponible" : "Ver lista"}
+              <Button
+                disabled={!isMatchActive}
+                className="w-full"
+                onClick={() => router.push(`${pathname}/${matchId}`)}
+              >
+                {isMatchActive
+                  ? t("watchListButton")
+                  : t("notAvailableListButton")}
               </Button>
               <div className="rounded-md border p-3 flex w-full justify-between items-center">
                 <p className="text-slate-500 text-sm text-medium leading-none">
-                  {isActive ? "Lista Desactivada" : "Lista Activa"}
+                  {isMatchActive ? t("listActive") : t("listDisabled")}
                 </p>
                 <Switch
-                  checked={!isActive}
-                  onCheckedChange={(event) => setIsActive(!event)}
+                  checked={isMatchActive}
+                  onCheckedChange={(event) => handleUpdateMatch(matchId, event)}
                 />
               </div>
             </>
           ) : (
-            <Button className="w-full" disabled={isActive}>
-              {isActive ? "Lista no disponible" : "Ver lista"}
+            <Button
+              className="w-full"
+              disabled={!isMatchActive}
+              onClick={() => router.push(`${pathname}/${matchId}`)}
+            >
+              {isMatchActive
+                ? t("watchListButton")
+                : t("notAvailableListButton")}
             </Button>
           )}
           <div className="flex items-center gap-2 mt-2">
             <Avatar className="h-5 w-5">
               <AvatarImage src={creator.avatar} alt={creator.name} />
+              <AvatarFallback>{creator.name.slice(0, 2)}</AvatarFallback>
             </Avatar>
             <span className="text-sm text-muted-foreground">
-              Creator: {creator.name}
+              {t("creator")}: {creator.name}
             </span>
           </div>
         </div>

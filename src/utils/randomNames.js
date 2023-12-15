@@ -39,8 +39,8 @@ const generateRandomEmail = (name) => {
   return `${sanitized}@${randomProvider}`;
 };
 
-export function generateFakeUsers() {
-  const usersArray = Array.from({ length: 30 }, (_, index) => ({
+export function generateFakeUsers(length) {
+  const usersArray = Array.from({ length: length }, (_, index) => ({
     avatar: `https://randomuser.me/api/portraits/thumb/${index}.jpg`,
     email: generateRandomEmail(generateRandomName()),
     name: generateRandomName(),

@@ -35,3 +35,25 @@ export function getDayName(date: Date | undefined, locale: string = "en-EN") {
   }
   return "no date";
 }
+
+export const formatDayName = (day: string, locale: string) => {
+  if (locale === "es") {
+    switch (day) {
+      case "Monday":
+        return "Lunes";
+      case "Tuesday":
+        return "Martes";
+      case "Wednesday":
+        return "Miércoles";
+      case "Thursday":
+        return "Jueves";
+      case "Friday":
+        return "Viernes";
+      case "Saturday":
+        return "Sabado";
+      case "Sunday":
+        return "Domingo";
+    }
+  }
+  return day;
+};

@@ -11,8 +11,10 @@ import { iUser } from "@/types/types";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function AdminPage() {
+  const t = useTranslations();
   const [users, setUsers] = useState<iUser[] | []>([]);
 
   const fetchUsers = async () => {
@@ -57,11 +59,12 @@ export default function AdminPage() {
       <div className="flex items-center justify-between mb-4">
         <Link href="/">
           <Button variant="outline" size={"sm"}>
-            <ChevronLeft className="mr-2 h-4 w-4" /> Back
+            <ChevronLeft className="mr-2 h-4 w-4" />{" "}
+            {t("userNavigation.backButton")}
           </Button>
         </Link>
       </div>
-      <UserList title="Users">
+      <UserList title={t("adminPage.UsersTitle")}>
         {
           <>
             {users.map((item) => (

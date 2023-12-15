@@ -1,0 +1,49 @@
+{
+  "colorMode": {
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema"
+  },
+  "login": {
+    "withGoogleButton": "Entrar con Google",
+    "withFacebookButton": "Entrar con Facebook",
+    "withTwitterButton": "Entrar con Twitter"
+  },
+  "userNavigation": {
+    "dashboard": "Panel Administrador",
+    "signOut": "Cerrar sesión",
+    "backButton": "Volver"
+  },
+  "homePage": {
+    "createMatchButton": "Crear Partido",
+    "watchListButton": "Ver lista",
+    "notAvailableListButton": "Lista no disponible",
+    "listDisabled": "Lista deshabilitada",
+    "listActive": "Lista habilitada",
+    "creator": "Creador",
+    "matchSettings": "Configuración del partido",
+    "selectDate": "Seleccionar una fecha",
+    "selectTime": "Seleccionar una hora"
+  },
+  "adminPage": {
+    "UsersTitle": "Usuarios"
+  },
+  "matchPage": {
+    "shareButton": "Compartir link",
+    "sharedButton": "Link copiado",
+    "sharedLinkToastText": "Ve a Whatsapp y pega el mensaje",
+    "noPlayers": "No hay jugadores aún",
+    "enrollMatch": "Me apunto",
+    "enrolledMatch": "Apuntado",
+    "players": "Jugadores",
+    "backup": "Reserva",
+    "copyMatchLink": "Lista del partido del dia { day } a las { time }hs - { link }",
+    "modal": {
+      "text": "Estas fuera del partido :(, entrará alguien de la reserva, por favor copia el mensaje para avisar por whatsapp al grupo.",
+      "message": "“Me bajo del partido de hoy, entra “{ reserva }” al partido - { link }”",
+      "messageNoBackup": "“Me bajo del partido de hoy - { link }”",
+      "copyMessageButton": "Copiar Mensaje",
+      "copiedMessage": "Mensaje Copiado"
+    }
+  }
+}

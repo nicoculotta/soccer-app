@@ -1,5 +1,4 @@
-import { iUser } from "@/types/types";
-import { randomUUID } from "crypto";
+import { iMatch, iUser } from "@/types/types";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import {
@@ -9,10 +8,8 @@ import {
   setDoc,
   getDoc,
   getDocs,
-  addDoc,
   deleteDoc,
 } from "firebase/firestore";
-import { iMatch } from "./schemaFirebase";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -94,7 +91,6 @@ export const deleteMatch = async (id: string) => {
   try {
     const collectionRef = collection(db, "matches");
     const docRef = doc(collectionRef, id);
-    console.log(docRef);
     await deleteDoc(docRef);
     return { message: "Match deleted" };
   } catch (error) {
@@ -117,4 +113,24 @@ export const getAllMatches = async (): Promise<iMatch[]> => {
     console.error("Error getting all matches:", error);
     throw error;
   }
+};
+
+// UPDATE MATCH INFO
+export const updateMatchInfo = async (uid: string, data: any) => {
+  try {
+    const collectionRef = collection(db, "matches");
+    const docRef = doc(collectionRef, uid);
+    await setDoc(docRef, data, { merge: true });
+  } catch (error) {
+    console.error("Error updating match:", error);
+    throw error;
+  }
+};
+
+// GET MATCH BY ID
+export const getMatchById = async (uid: string): Promise<iMatch> => {
+  const collectionRef = collection(db, "matches");
+  const matchRef = doc(collectionRef, uid);
+  const res = await getDoc(matchRef);
+  return res.data() as iMatch;
 };

@@ -6,3 +6,13 @@ export interface iUser {
   avatar: string;
   role: string;
 }
+
+export interface iMatch {
+  id: string;
+  available: boolean;
+  date: string;
+  time: string;
+  playerList: iUser[];
+  owner: iUser;
+  day: string;
+}

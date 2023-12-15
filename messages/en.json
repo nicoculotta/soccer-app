@@ -1,0 +1,48 @@
+{
+  "colorMode": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "login": {
+    "withGoogleButton": "Sign in with Google",
+    "withFacebookButton": "Sign in with Facebook",
+    "withTwitterButton": "Sign in with Twitter"
+  },
+  "userNavigation": {
+    "dashboard": "Admin Dashboard",
+    "signOut": "Sign Out",
+    "backButton": "Back"
+  },
+  "homePage": {
+    "createMatchButton": "Create match",
+    "watchListButton": "Watch list",
+    "notAvailableListButton": "List not available",
+    "listDisabled": "List disabled",
+    "listActive": "List active",
+    "creator": "Creator",
+    "matchSettings": "Match settings",
+    "selectDate": "Select date",
+    "selectTime": "Select time"
+  },
+  "adminPage": {
+    "UsersTitle": "Users"
+  },
+  "matchPage": {
+    "shareButton": "Share",
+    "sharedButton": "Link copied",
+    "enrollMatch": "Enroll",
+    "enrolledMatch": "Enrolled",
+    "noPlayers": "No players yet",
+    "players": "Players",
+    "backup": "Backup",
+    "copyMatchLink": "Match list { day } at { time }hs - { link }",
+    "modal": {
+      "text": "You're out of the team :( , someone from the backup will enter, please use the link to notify us by WhatsApp.",
+      "message": "“I'm not coming to the match, {reserva}” is your turn al partido {link}",
+      "messageNoBackup": "“I'm not comming to the match - { link }”",
+      "copyMessageButton": "Copy Message",
+      "copiedMessage": "Message Copied"
+    }
+  }
+}

@@ -4,13 +4,11 @@ import MatchCard from "@/components/MatchCard";
 import { ModeToggle } from "@/components/ModeToggle/ModeToggle";
 import Navbar from "@/components/Navbar/Navbar";
 import UserMenu from "@/components/Navbar/UserMenu";
-import { SelectScrollable } from "@/components/SelectScrollable/SelectScrollable";
 import { SheetModal } from "@/components/SheetModal/SheetModal";
 import { HomeSkeleton } from "@/components/Skeletons/HomeSkeleton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { SelectItem } from "@/components/ui/select";
 import {
   SheetClose,
   SheetFooter,
@@ -18,14 +16,22 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { useAuth } from "@/context/authContext";
-import { createMatch, deleteMatch, getAllMatches } from "@/lib/firebase";
-import { iMatch } from "@/lib/schemaFirebase";
-import { formatDate, getDayName } from "@/utils/formatters";
-import { Plus, Trophy } from "lucide-react";
+import {
+  createMatch,
+  deleteMatch,
+  getAllMatches,
+  updateMatchInfo,
+} from "@/lib/firebase";
+import { formatDate, formatDayName, getDayName } from "@/utils/formatters";
+import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { uuidv4 } from "@firebase/util";
+import { useLocale, useTranslations } from "next-intl";
+import { iMatch } from "@/types/types";
 
 export default function Home() {
+  const t = useTranslations("homePage");
+  const locale = useLocale();
   const { user, loading } = useAuth();
   const [date, setDate] = useState<Date>();
   const [time, setTime] = useState<string>("");
@@ -50,7 +56,6 @@ export default function Home() {
     try {
       const match = await createMatch(newMatch);
       setMatches([...matches, match.data]);
-      return console.log(match);
     } catch (error) {
       console.log(error);
     }
@@ -76,20 +81,9 @@ export default function Home() {
     return null;
   }
 
-  console.log(matches);
-
   return (
     <>
-      <Navbar>
-        <div className="flex gap-2">
-          <Trophy />
-          <span className="font-medium">Fútbol El Palo</span>
-        </div>
-        <div className="grid gap-4 grid-cols-2">
-          <ModeToggle />
-          <UserMenu />
-        </div>
-      </Navbar>
+      <Navbar />
       <main className="max-w-sm mx-auto px-2">
         <div className="grid grid-col gap-2 mt-4">
           <div>
@@ -97,16 +91,16 @@ export default function Home() {
               isAdmin={user.role !== "user"}
               button={
                 <Button variant="outline" size={"sm"}>
-                  <Plus className="mr-2 h-4 w-4" /> Create Match
+                  <Plus className="mr-2 h-4 w-4" /> {t("createMatchButton")}
                 </Button>
               }
             >
               <SheetHeader>
-                <SheetTitle>Match Settings</SheetTitle>
+                <SheetTitle>{t("matchSettings")}</SheetTitle>
               </SheetHeader>
               <div className="grid gap-4 py-4">
                 <div className="grid items-center gap-4">
-                  <Label>Select Date *</Label>
+                  <Label>{t("selectDate")} *</Label>
                   <DatePicker
                     date={date}
                     onChangeDate={setDate}
@@ -116,10 +110,9 @@ export default function Home() {
                   />
                 </div>
                 <div className="grid items-center gap-4">
-                  <Label>Select Time *</Label>
+                  <Label>{t("selectTime")} *</Label>
                   <Input
                     type={"time"}
-                    placeholder="Select Time"
                     onChange={(e) => setTime(e.target.value)}
                     onBlur={() =>
                       time && setFormError({ ...formError, time: false })
@@ -137,7 +130,7 @@ export default function Home() {
                       formError.date === true || formError.time === true
                     }
                   >
-                    Create Match
+                    {t("createMatchButton")}
                   </Button>
                 </SheetClose>
               </SheetFooter>
@@ -147,12 +140,14 @@ export default function Home() {
           {matches &&
             matches.map((match) => (
               <MatchCard
-                key={match.date + match.time}
+                key={match.id}
+                matchId={match.id}
                 date={match.date}
-                title={`${match.day} ${match.time} hs`}
+                title={`${formatDayName(match.day, locale)} ${match.time} hs`}
                 role={user.role}
                 onDelete={() => handleDeleteMatch(match.id)}
                 creator={{ name: match.owner.name, avatar: match.owner.avatar }}
+                isActive={match.available}
               />
             ))}
         </div>

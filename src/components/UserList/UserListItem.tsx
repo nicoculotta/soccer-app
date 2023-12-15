@@ -1,6 +1,6 @@
 "use client";
 import { ReactNode } from "react";
-import { Avatar, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 interface iUserListItem {
   avatar: string;
@@ -14,6 +14,7 @@ export default function UserListItem({ avatar, name, actions }: iUserListItem) {
       <div className="flex items-center gap-2">
         <Avatar className="w-6 h-6">
           <AvatarImage src={avatar} alt={name} />
+          <AvatarFallback>{name.slice(0, 2)}</AvatarFallback>
         </Avatar>
         <span>{name}</span>
       </div>
