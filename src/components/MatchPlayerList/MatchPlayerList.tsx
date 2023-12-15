@@ -26,7 +26,9 @@ const MatchPlayerList = () => {
 
   return (
     <>
-      <Button onClick={addFakePlayers}>Agregar jugadores FAKE</Button>
+      {false && (
+        <Button onClick={addFakePlayers}>Agregar jugadores FAKE</Button>
+      )}
       <PlayerList
         title={t("matchPage.players")}
         list={matchInfo?.playerList.slice(0, 16) || []}

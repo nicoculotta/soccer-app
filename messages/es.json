@@ -23,7 +23,8 @@
     "creator": "Creador",
     "matchSettings": "Configuración del partido",
     "selectDate": "Seleccionar una fecha",
-    "selectTime": "Seleccionar una hora"
+    "selectTime": "Seleccionar una hora",
+    "emptyMatches": "Parece que no hay partidos, crea uno"
   },
   "adminPage": {
     "UsersTitle": "Usuarios"

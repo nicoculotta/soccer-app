@@ -9,6 +9,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Dispatch, SetStateAction } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { es, enUS } from "date-fns/locale";
 
 interface iDatePicker {
   date: Date | undefined;
@@ -17,6 +19,9 @@ interface iDatePicker {
 }
 
 export function DatePicker({ date, onChangeDate, onBlurDate }: iDatePicker) {
+  const t = useTranslations("homePage");
+  const locale = useLocale();
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -28,7 +33,11 @@ export function DatePicker({ date, onChangeDate, onBlurDate }: iDatePicker) {
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
+          {date ? (
+            format(date, "PPP", { locale: locale === "es" ? es : enUS })
+          ) : (
+            <span>{t("selectDate")}</span>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
@@ -38,6 +47,7 @@ export function DatePicker({ date, onChangeDate, onBlurDate }: iDatePicker) {
           onSelect={onChangeDate}
           initialFocus
           onDayBlur={onBlurDate}
+          locale={locale === "es" ? es : enUS}
         />
       </PopoverContent>
     </Popover>

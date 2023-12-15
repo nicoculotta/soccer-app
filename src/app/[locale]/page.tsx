@@ -23,7 +23,7 @@ import {
   updateMatchInfo,
 } from "@/lib/firebase";
 import { formatDate, formatDayName, getDayName } from "@/utils/formatters";
-import { Plus } from "lucide-react";
+import { Frown, MoveUpLeft, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { uuidv4 } from "@firebase/util";
 import { useLocale, useTranslations } from "next-intl";
@@ -137,7 +137,16 @@ export default function Home() {
             </SheetModal>
           </div>
 
-          {matches &&
+          {matches.length === 0 ? (
+            <div className="flex flex-col items-center justify-center bg-slate-100 dark:bg-slate-900 px-6 h-48 rounded-md">
+              <div className="rounded-full h-12 w-12 flex items-center justify-center bg-slate-200 dark:bg-slate-800 mb-3 ">
+                <MoveUpLeft size={24} />
+              </div>
+              <h3 className="text-muted-foreground text-center">
+                {t("emptyMatches")}
+              </h3>
+            </div>
+          ) : (
             matches.map((match) => (
               <MatchCard
                 key={match.id}
@@ -148,8 +157,10 @@ export default function Home() {
                 onDelete={() => handleDeleteMatch(match.id)}
                 creator={{ name: match.owner.name, avatar: match.owner.avatar }}
                 isActive={match.available}
+                ownerName={match.owner.name}
               />
-            ))}
+            ))
+          )}
         </div>
       </main>
     </>

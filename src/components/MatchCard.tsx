@@ -14,6 +14,7 @@ import { Switch } from "./ui/switch";
 import { useTranslations } from "next-intl";
 import { updateMatchInfo } from "@/lib/firebase";
 import { usePathname, useRouter } from "next/navigation";
+import { useAuth } from "@/context/authContext";
 
 interface MatchCardProps {
   date: string;
@@ -26,6 +27,7 @@ interface MatchCardProps {
   onDelete: () => void;
   isActive: boolean;
   matchId: string;
+  ownerName: string;
 }
 
 const MatchCard = ({
@@ -36,8 +38,10 @@ const MatchCard = ({
   creator,
   onDelete,
   isActive,
+  ownerName,
 }: MatchCardProps) => {
   const t = useTranslations("homePage");
+  const { user } = useAuth();
   const [isMatchActive, setIsMatchActive] = useState<boolean>(isActive);
   const router = useRouter();
   const pathname = usePathname();
@@ -52,7 +56,8 @@ const MatchCard = ({
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardDescription>{date}</CardDescription>
-          {(role === "admin" || role === "super") && (
+          {((role === "admin" && ownerName === user.name) ||
+            role === "super") && (
             <Button variant="outline" size="icon" onClick={onDelete}>
               <Trash className="h-4 w-4" />
             </Button>

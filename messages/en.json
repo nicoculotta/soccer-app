@@ -23,7 +23,8 @@
     "creator": "Creator",
     "matchSettings": "Match settings",
     "selectDate": "Select date",
-    "selectTime": "Select time"
+    "selectTime": "Select time",
+    "emptyMatches": "Seems like we don't have games, please create one"
   },
   "adminPage": {
     "UsersTitle": "Users"
