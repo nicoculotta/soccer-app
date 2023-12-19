@@ -11,6 +11,7 @@
   },
   "userNavigation": {
     "dashboard": "Admin Dashboard",
+    "language": "Switch to Spanish",
     "signOut": "Sign Out",
     "backButton": "Back"
   },

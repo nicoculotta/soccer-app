@@ -24,7 +24,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 export const createUser = async (uid: string, data: iUser) => {
   try {

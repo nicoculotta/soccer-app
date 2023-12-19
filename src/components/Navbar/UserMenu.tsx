@@ -1,10 +1,10 @@
 "use client";
 import { USER_ROLES } from "@/config";
 import { useAuth } from "@/context/authContext";
-import { LayoutDashboard, LogOut } from "lucide-react";
-import { useLocale } from "next-intl";
+import { Languages, LayoutDashboard, LogOut } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -17,6 +17,16 @@ import {
 export default function UserMenu() {
   const { user, signOut } = useAuth();
   const locale = useLocale();
+  const t = useTranslations("userNavigation");
+  const { push } = useRouter();
+  const pathname = usePathname();
+
+  const switchLang = () => {
+    const restOfPathname = pathname.slice(3);
+    locale === "en"
+      ? push(`/es${restOfPathname}`)
+      : push(`/en${restOfPathname}`);
+  };
 
   if (!user) {
     return null;
@@ -39,13 +49,19 @@ export default function UserMenu() {
             <Link href={`/${locale}/admin`}>
               <DropdownMenuItem>
                 <LayoutDashboard className="mr-2 h-4 w-4" />
-                <span>Admin Dashboard</span>
+                <span>{t("dashboard")}</span>
               </DropdownMenuItem>
             </Link>
           )}
+
+          <DropdownMenuItem onClick={switchLang}>
+            <Languages className="mr-2 h-4 w-4" />
+            <span>{t("language")}</span>
+          </DropdownMenuItem>
+
           <DropdownMenuItem onClick={signOut}>
             <LogOut className="mr-2 h-4 w-4" />
-            <span>Sign Out</span>
+            <span>{t("signOut")}</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

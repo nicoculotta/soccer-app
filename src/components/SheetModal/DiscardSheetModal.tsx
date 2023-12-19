@@ -25,15 +25,17 @@ const DiscardSheetModal = ({ isOpen, setIsOpen }: iDiscardSheetModal) => {
   const pathname = usePathname();
 
   const messageToCopy = () => {
-    if (matchInfo?.playerList[15]?.name && !backupPlayerIsDown) {
-      return t("matchPage.modal.message", {
-        reserva: matchInfo?.playerList[15]?.name,
-        link: window.location.origin + pathname,
-      });
-    } else {
-      return t("matchPage.modal.messageNoBackup", {
-        link: window.location.origin + pathname,
-      });
+    if (typeof window !== "undefined") {
+      if (matchInfo?.playerList[15]?.name && !backupPlayerIsDown) {
+        return t("matchPage.modal.message", {
+          reserva: matchInfo?.playerList[15]?.name,
+          link: window.location.origin + pathname,
+        });
+      } else {
+        return t("matchPage.modal.messageNoBackup", {
+          link: window.location.origin + pathname,
+        });
+      }
     }
   };
 

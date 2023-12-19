@@ -1,9 +1,7 @@
 "use client";
 import { DatePicker } from "@/components/DatePicker/DatePicker";
 import MatchCard from "@/components/MatchCard";
-import { ModeToggle } from "@/components/ModeToggle/ModeToggle";
 import Navbar from "@/components/Navbar/Navbar";
-import UserMenu from "@/components/Navbar/UserMenu";
 import { SheetModal } from "@/components/SheetModal/SheetModal";
 import { HomeSkeleton } from "@/components/Skeletons/HomeSkeleton";
 import { Button } from "@/components/ui/button";
@@ -16,18 +14,15 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { useAuth } from "@/context/authContext";
-import {
-  createMatch,
-  deleteMatch,
-  getAllMatches,
-  updateMatchInfo,
-} from "@/lib/firebase";
+import { createMatch, db, deleteMatch } from "@/lib/firebase";
 import { formatDate, formatDayName, getDayName } from "@/utils/formatters";
 import { Frown, MoveUpLeft, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { uuidv4 } from "@firebase/util";
 import { useLocale, useTranslations } from "next-intl";
 import { iMatch } from "@/types/types";
+import { collection, onSnapshot } from "firebase/firestore";
+import { MatchProvider } from "@/context/matchContext";
 
 export default function Home() {
   const t = useTranslations("homePage");
@@ -63,16 +58,19 @@ export default function Home() {
 
   const handleDeleteMatch = async (id: string) => {
     await deleteMatch(id);
-    await fetchAllMatches();
-  };
-
-  const fetchAllMatches = async () => {
-    const response = await getAllMatches();
-    setMatches(response);
   };
 
   useEffect(() => {
-    fetchAllMatches();
+    const collectionRef = collection(db, "matches");
+    const unsubscribe = onSnapshot(collectionRef, (snap) => {
+      const matches: iMatch[] = [];
+      snap.docs.forEach((doc) => {
+        matches.push(doc.data() as iMatch);
+      });
+      setMatches(matches);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   if (loading && !user) return <HomeSkeleton />;
@@ -136,7 +134,6 @@ export default function Home() {
               </SheetFooter>
             </SheetModal>
           </div>
-
           {matches.length === 0 ? (
             <div className="flex flex-col items-center justify-center bg-slate-100 dark:bg-slate-900 px-6 h-48 rounded-md">
               <div className="rounded-full h-12 w-12 flex items-center justify-center bg-slate-200 dark:bg-slate-800 mb-3 ">
@@ -155,7 +152,10 @@ export default function Home() {
                 title={`${formatDayName(match.day, locale)} ${match.time} hs`}
                 role={user.role}
                 onDelete={() => handleDeleteMatch(match.id)}
-                creator={{ name: match.owner.name, avatar: match.owner.avatar }}
+                creator={{
+                  name: match.owner.name,
+                  avatar: match.owner.avatar,
+                }}
                 isActive={match.available}
                 ownerName={match.owner.name}
               />

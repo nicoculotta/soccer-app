@@ -11,6 +11,7 @@
   },
   "userNavigation": {
     "dashboard": "Panel Administrador",
+    "language": "Cambiar a Inglés",
     "signOut": "Cerrar sesión",
     "backButton": "Volver"
   },

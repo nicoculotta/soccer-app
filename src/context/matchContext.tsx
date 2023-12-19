@@ -2,6 +2,7 @@
 
 import { useToast } from "@/components/ui/use-toast";
 import { iMatch, iUser } from "@/types/types";
+import { collection, doc, onSnapshot } from "firebase/firestore";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import {
@@ -11,7 +12,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { getMatchById, updateMatchInfo } from "../lib/firebase";
+import { db, updateMatchInfo } from "../lib/firebase";
 import { useAuth } from "./authContext";
 
 const MatchContext = createContext<any>(null);
@@ -33,11 +34,7 @@ export const MatchProvider = ({
   const [isDiscardOpen, setIsDiscardOpen] = useState(false);
   const [isCopyLink, setIsCopyLink] = useState(false);
   const [backupPlayerIsDown, setBackupPlayerIsDown] = useState(false);
-
-  const getMatch = async () => {
-    const res = await getMatchById(params.match as string);
-    setMatchInfo(res);
-  };
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleAddPlayer = (playerInfo: iUser) => {
     if (matchInfo) {
@@ -102,7 +99,13 @@ export const MatchProvider = ({
   };
 
   useEffect(() => {
-    getMatch();
+    const collectionRef = collection(db, "matches");
+    const matchRef = doc(collectionRef, params.match as string);
+    const unsubscribe = onSnapshot(matchRef, (snap) => {
+      setMatchInfo(snap.data() as iMatch);
+      setIsLoading(false);
+    });
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
@@ -128,6 +131,7 @@ export const MatchProvider = ({
         isCopyLink,
         backupPlayerIsDown,
         copyMessage,
+        isLoading,
       }}
     >
       {children}

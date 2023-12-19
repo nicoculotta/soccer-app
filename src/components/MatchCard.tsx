@@ -67,7 +67,7 @@ const MatchCard = ({
       </CardHeader>
       <CardFooter>
         <div className="w-full flex flex-col gap-2">
-          {role === "admin" || role === "super" ? (
+          {(role === "admin" && ownerName === user.name) || role === "super" ? (
             <>
               <Button
                 disabled={!isMatchActive}

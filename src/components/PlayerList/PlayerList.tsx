@@ -1,9 +1,12 @@
+"use client";
 import { iUser } from "@/types/types";
-import { Frown, UserRound } from "lucide-react";
+import { Frown } from "lucide-react";
 import React from "react";
 import PlayerListItem from "./PlayerListItem";
 import { useTranslations } from "next-intl";
 import { useMatch } from "@/context/matchContext";
+import { useAuth } from "@/context/authContext";
+import { userInfo } from "os";
 
 interface iPlayerList {
   title: string;
@@ -13,7 +16,12 @@ interface iPlayerList {
 
 const PlayerList = ({ title, list, isAdmin }: iPlayerList) => {
   const t = useTranslations();
-  const { handleDeletePlayer } = useMatch();
+  const { user } = useAuth();
+  const { handleDeletePlayer, isLoading } = useMatch();
+
+  if (isLoading) {
+    return <>Skeleton</>;
+  }
   return (
     <div>
       <h2>{title}</h2>
@@ -36,7 +44,7 @@ const PlayerList = ({ title, list, isAdmin }: iPlayerList) => {
               number={index + 1}
               onDelete={() => handleDeletePlayer(player.uid)}
               role={player.role}
-              deleteIcon={isAdmin}
+              deleteIcon={isAdmin || user.role === "super"}
             />
           ))
         )}

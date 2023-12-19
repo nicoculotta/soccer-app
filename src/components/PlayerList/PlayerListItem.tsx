@@ -35,7 +35,7 @@ const PlayerListItem = ({
         <p className="px-3">{name}</p>
       </div>
       <div className="flex items-center gap-3">
-        {role === "admin" && (
+        {(role === "admin" || role === "super") && (
           <span className="text-xs text-muted-foreground">{role}</span>
         )}
         <span>{number}</span>
