@@ -40,7 +40,7 @@ export function DatePicker({ date, onChangeDate, onBlurDate }: iDatePicker) {
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
+      <PopoverContent className="w-auto p-0 relative">
         <Calendar
           mode={"single"}
           selected={date}

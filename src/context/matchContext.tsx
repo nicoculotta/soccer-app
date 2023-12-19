@@ -2,6 +2,7 @@
 
 import { useToast } from "@/components/ui/use-toast";
 import { iMatch, iUser } from "@/types/types";
+import { createListOfPlayers } from "@/utils/formatters";
 import { collection, doc, onSnapshot } from "firebase/firestore";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
@@ -78,6 +79,8 @@ export const MatchProvider = ({
       time: matchInfo?.time,
       link: window.location.origin + pathname,
     });
+
+    createListOfPlayers(matchInfo?.playerList);
 
     navigator.clipboard.writeText(textToCopy);
     setIsCopyLink(true);

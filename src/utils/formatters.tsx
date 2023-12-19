@@ -57,3 +57,8 @@ export const formatDayName = (day: string, locale: string) => {
   }
   return day;
 };
+
+export const createListOfPlayers = (list: iUser[] | undefined) => {
+  const players = list?.map((user, i) => `${i + 1}. ${user.name}`);
+  console.log(players);
+};
