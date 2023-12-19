@@ -96,6 +96,7 @@ function useProvideAuth(): useProvideAuthProps {
       setRedirectUrl(pathname);
       router.push(`/${locale}/login`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, loading, pathname, locale]);
 
   return {
