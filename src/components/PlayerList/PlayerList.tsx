@@ -6,7 +6,7 @@ import PlayerListItem from "./PlayerListItem";
 import { useTranslations } from "next-intl";
 import { useMatch } from "@/context/matchContext";
 import { useAuth } from "@/context/authContext";
-import { userInfo } from "os";
+import { MatchSkeleton } from "../Skeletons/MatchSkeleton";
 
 interface iPlayerList {
   title: string;
@@ -20,7 +20,7 @@ const PlayerList = ({ title, list, isAdmin }: iPlayerList) => {
   const { handleDeletePlayer, isLoading } = useMatch();
 
   if (isLoading) {
-    return <>Skeleton</>;
+    return <MatchSkeleton />;
   }
   return (
     <div>

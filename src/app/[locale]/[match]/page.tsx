@@ -6,9 +6,18 @@ import { useTranslations } from "next-intl";
 import { MatchProvider } from "@/context/matchContext";
 import MatchInfoButtons from "@/components/MatchInfoButtons/MatchInfoButtons";
 import MatchPlayerList from "@/components/MatchPlayerList/MatchPlayerList";
+import { useAuth } from "@/context/authContext";
+import { MatchSkeleton } from "@/components/Skeletons/MatchSkeleton";
 
 export default function MatchPage({ params }: { params: { match: string } }) {
   const t = useTranslations();
+  const { user, loading } = useAuth();
+
+  if (loading) return <MatchSkeleton />;
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <MatchProvider params={params}>

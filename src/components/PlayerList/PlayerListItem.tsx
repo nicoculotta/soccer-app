@@ -22,7 +22,7 @@ const PlayerListItem = ({
 }: iPlayerListItem) => {
   return (
     <div className="flex items-center justify-between bg-slate-100 dark:bg-slate-900 py-2 px-4 rounded-md">
-      <div className="flex items-center">
+      <div className="flex items-center w-full">
         {deleteIcon && (
           <Button className="p-2 mr-2" variant="ghost" onClick={onDelete}>
             <X size={16} />
@@ -32,11 +32,11 @@ const PlayerListItem = ({
           <AvatarImage src={avatar} alt={name} />
           <AvatarFallback>{name.slice(0, 2)}</AvatarFallback>
         </Avatar>
-        <p className="px-3">{name}</p>
+        <p className="px-3 truncate">{name}</p>
       </div>
       <div className="flex items-center gap-3">
         {(role === "admin" || role === "super") && (
-          <span className="text-xs text-muted-foreground">{role}</span>
+          <span className="text-xs text-muted-foreground">Admin</span>
         )}
         <span>{number}</span>
       </div>

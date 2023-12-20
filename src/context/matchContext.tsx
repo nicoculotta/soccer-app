@@ -74,13 +74,18 @@ export const MatchProvider = ({
   };
 
   const copyLink = () => {
-    const textToCopy = t("matchPage.copyMatchLink", {
+    const playerListText = createListOfPlayers(matchInfo?.playerList);
+    const enrolledPlayers = `(${matchInfo?.playerList.length}/16)`;
+
+    const textToCopy = `\u26BD\u{1F5D2}\uFE0F ${t("matchPage.copyMatchLink", {
       day: matchInfo?.date,
       time: matchInfo?.time,
       link: window.location.origin + pathname,
-    });
+    })}\n\n👤${t("matchPage.playerList", {
+      number: enrolledPlayers,
+    })}\n\n${playerListText}`;
 
-    createListOfPlayers(matchInfo?.playerList);
+    console.log(textToCopy);
 
     navigator.clipboard.writeText(textToCopy);
     setIsCopyLink(true);
@@ -90,7 +95,7 @@ export const MatchProvider = ({
     });
     setTimeout(() => {
       setIsCopyLink(false);
-    }, 3000);
+    }, 2000);
   };
 
   const copyMessage = (message: string) => {

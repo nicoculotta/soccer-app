@@ -42,7 +42,12 @@ const DiscardSheetModal = ({ isOpen, setIsOpen }: iDiscardSheetModal) => {
   return (
     <SheetModal isOpen={isOpen} setIsOpen={setIsOpen}>
       <SheetHeader>
-        <SheetTitle className="text-md">{t("matchPage.modal.text")}</SheetTitle>
+        <SheetTitle className="text-xl">{`\u{1F62D} ${t(
+          "matchPage.modal.title"
+        )} \u{1F62D}`}</SheetTitle>
+        <SheetDescription className="text-md">
+          {t("matchPage.modal.text")}
+        </SheetDescription>
       </SheetHeader>
 
       <SheetDescription className="bg-slate-100 dark:bg-slate-800 p-3 rounded-md my-4">

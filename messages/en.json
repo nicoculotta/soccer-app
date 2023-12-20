@@ -39,9 +39,11 @@
     "players": "Players",
     "backup": "Backup",
     "copyMatchLink": "Match list { day } at { time }hs - { link }",
+    "playerList": "{number} Enrolled players:",
     "modal": {
-      "text": "You're out of the team :( , someone from the backup will enter, please use the link to notify us by WhatsApp.",
-      "message": "“I'm not coming to the match, {reserva}” is your turn al partido {link}",
+      "title": "You're out of the game",
+      "text": "Someone from the backup will take your seat, please use the link to notify us by WhatsApp.",
+      "message": "I'm not coming to the match, “{reserva}” is your turn {link}",
       "messageNoBackup": "“I'm not comming to the match - { link }”",
       "copyMessageButton": "Copy Message",
       "copiedMessage": "Message Copied"

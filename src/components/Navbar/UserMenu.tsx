@@ -44,8 +44,7 @@ export default function UserMenu() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-48 mr-4">
         <DropdownMenuGroup>
-          {(user.role === USER_ROLES.IS_ADMIN ||
-            user.role === USER_ROLES.IS_SUPER) && (
+          {user.role === USER_ROLES.IS_SUPER && (
             <Link href={`/${locale}/admin`}>
               <DropdownMenuItem>
                 <LayoutDashboard className="mr-2 h-4 w-4" />
