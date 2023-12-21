@@ -7,7 +7,9 @@
   "login": {
     "withGoogleButton": "Sign in with Google",
     "withFacebookButton": "Sign in with Facebook",
-    "withTwitterButton": "Sign in with Twitter"
+    "withTwitterButton": "Sign in with X",
+    "comingSoon": "Coming Soon",
+    "createdBy": "Created by:"
   },
   "userNavigation": {
     "dashboard": "Admin Dashboard",
@@ -25,7 +27,8 @@
     "matchSettings": "Match settings",
     "selectDate": "Select date",
     "selectTime": "Select time",
-    "emptyMatches": "Seems like we don't have games, please create one"
+    "emptyMatches": "Seems like we don't have games, please create one",
+    "emptyMatchesUser": "Seems like we don't have games, an Admin will create one"
   },
   "adminPage": {
     "UsersTitle": "Users"

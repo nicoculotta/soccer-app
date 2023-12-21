@@ -7,7 +7,9 @@
   "login": {
     "withGoogleButton": "Entrar con Google",
     "withFacebookButton": "Entrar con Facebook",
-    "withTwitterButton": "Entrar con Twitter"
+    "withTwitterButton": "Entrar con X",
+    "comingSoon": "Próximamente",
+    "createdBy": "Creado por:"
   },
   "userNavigation": {
     "dashboard": "Panel Administrador",
@@ -25,7 +27,8 @@
     "matchSettings": "Configuración del partido",
     "selectDate": "Seleccionar una fecha",
     "selectTime": "Seleccionar una hora",
-    "emptyMatches": "Parece que no hay partidos, crea uno"
+    "emptyMatches": "Parece que no hay partidos, crea uno",
+    "emptyMatchesUser": "Parece que no hay partidos, un administrador creará uno"
   },
   "adminPage": {
     "UsersTitle": "Usuarios"

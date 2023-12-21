@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { useAuth } from "@/context/authContext";
 import { createMatch, db, deleteMatch } from "@/lib/firebase";
 import { formatDate, formatDayName, getDayName } from "@/utils/formatters";
-import { MoveUpLeft, Plus, X } from "lucide-react";
+import { Clock4, MoveUpLeft, Plus, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { uuidv4 } from "@firebase/util";
 import { useLocale, useTranslations } from "next-intl";
@@ -141,10 +141,16 @@ export default function Home() {
           {matches.length === 0 ? (
             <div className="flex flex-col items-center justify-center bg-slate-100 dark:bg-slate-900 px-6 h-48 rounded-md">
               <div className="rounded-full h-12 w-12 flex items-center justify-center bg-slate-200 dark:bg-slate-800 mb-3 ">
-                <MoveUpLeft size={24} />
+                {user.role !== "user" ? (
+                  <MoveUpLeft size={24} />
+                ) : (
+                  <Clock4 size={24} />
+                )}
               </div>
               <h3 className="text-muted-foreground text-center">
-                {t("emptyMatches")}
+                {user.role !== "user"
+                  ? t("emptyMatches")
+                  : t("emptyMatchesUser")}
               </h3>
             </div>
           ) : (

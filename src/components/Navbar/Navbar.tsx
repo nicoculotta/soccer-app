@@ -7,7 +7,7 @@ function NavbarContent() {
     <>
       <div className="flex gap-2">
         <Trophy />
-        <span className="font-medium">Fútbol El Palo</span>
+        <span className="font-medium text-lg">Furbo</span>
       </div>
       <div className="grid gap-4 grid-cols-2">
         <ModeToggle />
