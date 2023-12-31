@@ -46,7 +46,7 @@ export function generateFakeUsers(length) {
     name: generateRandomName(),
     provider: "randomprovider.com",
     role: "user",
-    uid: `UID-${index}`,
+    uid: `UID-${Math.random(index).toFixed(3)}`,
   }));
 
   return usersArray;

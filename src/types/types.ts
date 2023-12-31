@@ -16,3 +16,11 @@ export interface iMatch {
   owner: iUser;
   day: string;
 }
+
+export interface iPlayerListItemDraggable {
+  id: string;
+  avatar: string;
+  name: string;
+  number?: number;
+  role: string;
+}

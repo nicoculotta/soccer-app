@@ -20,7 +20,7 @@ export default function MatchPage({ params }: { params: { match: string } }) {
   }
 
   return (
-    <MatchProvider params={params}>
+    <>
       <div className="flex items-center justify-between mb-4">
         <Link href="/">
           <Button variant="outline" size={"sm"}>
@@ -31,6 +31,6 @@ export default function MatchPage({ params }: { params: { match: string } }) {
       </div>
       <MatchInfoButtons />
       <MatchPlayerList />
-    </MatchProvider>
+    </>
   );
 }

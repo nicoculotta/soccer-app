@@ -2,8 +2,10 @@ import { useAuth } from "@/context/authContext";
 import { useMatch } from "@/context/matchContext";
 import { cn } from "@/lib/utils";
 import { formatDayName } from "@/utils/formatters";
-import { Check } from "lucide-react";
+import { Check, UsersRound } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 import { Button } from "../ui/button";
 
@@ -11,6 +13,7 @@ const MatchInfoButtons = () => {
   const t = useTranslations();
   const locale = useLocale();
   const { user } = useAuth();
+  const pathname = usePathname();
   const {
     matchInfo,
     isPlayerInList,
@@ -19,6 +22,7 @@ const MatchInfoButtons = () => {
     handleAddPlayer,
     copyLink,
   } = useMatch();
+
   return (
     <div>
       {matchInfo && (
@@ -62,6 +66,15 @@ const MatchInfoButtons = () => {
               {isCopyLink && <Check size={20} className="ml-2" />}
             </Button>
           </div>
+          {(user.role === "admin" || user.role === "super") &&
+            matchInfo.owner.name === user.name && (
+              <Button className="flex-1" variant={"secondary"} asChild>
+                <Link href={`${pathname}/create`}>
+                  <UsersRound size={20} className="mr-2" />
+                  {t("matchPage.createTeam")}
+                </Link>
+              </Button>
+            )}
         </div>
       )}
     </div>

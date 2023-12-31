@@ -34,8 +34,9 @@
     "UsersTitle": "Usuarios"
   },
   "matchPage": {
-    "shareButton": "Compartir link",
-    "sharedButton": "Link copiado",
+    "shareButton": "Copiar lista",
+    "sharedButton": "Lista copiada",
+    "createTeam": "Armar equipo",
     "sharedLinkToastText": "Ve a Whatsapp y pega el mensaje",
     "noPlayers": "No hay jugadores aún",
     "enrollMatch": "Me apunto",
@@ -52,5 +53,9 @@
       "copyMessageButton": "Copiar Mensaje",
       "copiedMessage": "Mensaje Copiado"
     }
+  },
+  "createPage": {
+    "titleWhite": "Equipo Blanco",
+    "titleBlack": "Equipo Negro"
   }
 }

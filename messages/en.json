@@ -34,8 +34,9 @@
     "UsersTitle": "Users"
   },
   "matchPage": {
-    "shareButton": "Share",
-    "sharedButton": "Link copied",
+    "shareButton": "Copy list",
+    "sharedButton": "List copied",
+    "createTeam": "Create Team",
     "enrollMatch": "Enroll",
     "enrolledMatch": "Enrolled",
     "noPlayers": "No players yet",
@@ -51,5 +52,9 @@
       "copyMessageButton": "Copy Message",
       "copiedMessage": "Message Copied"
     }
+  },
+  "createPage": {
+    "titleWhite": "Team White",
+    "titleBlack": "Team Black"
   }
 }
