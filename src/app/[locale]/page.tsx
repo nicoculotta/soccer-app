@@ -40,6 +40,10 @@ export default function Home() {
       available: false,
       playerList: [],
       owner: user,
+      teams: {
+        teamA: [],
+        teamB: [],
+      },
     };
 
     setisModalOpen(!isModalOpen);
