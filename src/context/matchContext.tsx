@@ -40,10 +40,20 @@ export const MatchProvider = ({
   const handleAddPlayer = (playerInfo: iUser) => {
     if (matchInfo) {
       const players = matchInfo.playerList;
+      const lessTeamPlayers =
+        matchInfo.teams.teamA.length < matchInfo.teams.teamB.length
+          ? "teamA"
+          : "teamB";
       updateMatchInfo(matchInfo.id, {
         playerList: [...players, playerInfo],
+        teams: {
+          [lessTeamPlayers]: [...matchInfo.teams[lessTeamPlayers], playerInfo],
+        },
       });
-      setMatchInfo({ ...matchInfo, playerList: [...players, playerInfo] });
+      setMatchInfo({
+        ...matchInfo,
+        playerList: [...players, playerInfo],
+      });
       setIsPlayerInList(true);
     }
   };
@@ -53,13 +63,30 @@ export const MatchProvider = ({
       const playersFiltered = matchInfo.playerList.filter(
         (player) => player.uid !== playerId
       );
+      const playerFilteredInA = matchInfo.teams?.teamA.filter(
+        (player) => player.uid !== playerId
+      );
+      const playerFilteredInB = matchInfo.teams?.teamB.filter(
+        (player) => player.uid !== playerId
+      );
       const playerIndex = matchInfo.playerList.findIndex(
         (player) => player.uid === playerId
       );
       updateMatchInfo(matchInfo.id, {
         playerList: playersFiltered,
+        teams: {
+          teamA: playerFilteredInA,
+          teamB: playerFilteredInB,
+        },
       });
-      setMatchInfo({ ...matchInfo, playerList: playersFiltered });
+      setMatchInfo({
+        ...matchInfo,
+        playerList: playersFiltered,
+        teams: {
+          teamA: playerFilteredInA,
+          teamB: playerFilteredInB,
+        },
+      });
       setIsPlayerInList(false);
 
       if (user.uid === playerId) {
@@ -85,8 +112,6 @@ export const MatchProvider = ({
       number: enrolledPlayers,
     })}\n\n${playerListText}`;
 
-    console.log(textToCopy);
-
     navigator.clipboard.writeText(textToCopy);
     setIsCopyLink(true);
     toast({
@@ -104,6 +129,27 @@ export const MatchProvider = ({
       title: t("matchPage.modal.copiedMessage"),
       description: t("matchPage.sharedLinkToastText"),
     });
+  };
+
+  const copyTeamsList = () => {
+    const textTeamA = createListOfPlayers(matchInfo?.teams.teamA);
+    const textTeamB = createListOfPlayers(matchInfo?.teams.teamB);
+
+    const textToCopy = `\u{1F3F3}\uFE0F ${t(
+      "createPage.titleWhite"
+    )}\n\n${textTeamA}\n\n\u{1F3F4}${t(
+      "createPage.titleBlack"
+    )}\n\n${textTeamB}`;
+
+    navigator.clipboard.writeText(textToCopy);
+    setIsCopyLink(true);
+    toast({
+      title: t("matchPage.sharedButton"),
+      description: t("matchPage.sharedLinkToastText"),
+    });
+    setTimeout(() => {
+      setIsCopyLink(false);
+    }, 2000);
   };
 
   useEffect(() => {
@@ -140,6 +186,7 @@ export const MatchProvider = ({
         backupPlayerIsDown,
         copyMessage,
         isLoading,
+        copyTeamsList,
       }}
     >
       {children}

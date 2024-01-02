@@ -1,158 +1,64 @@
 "use client";
 import { useMatch } from "@/context/matchContext";
-import { generateFakeUsers } from "@/utils/randomNames";
-import React, { useEffect, useState } from "react";
-import {
-  DndContext,
-  closestCenter,
-  useSensors,
-  useSensor,
-  PointerSensor,
-  KeyboardSensor,
-} from "@dnd-kit/core";
-import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { iPlayerListItemDraggable, iUser } from "@/types/types";
-import PlayerListAreaSortable from "@/components/PlayerList/PlayerListAreaSortable";
+import React, { useEffect } from "react";
+import { iMatch, iUser } from "@/types/types";
 import { useTranslations } from "next-intl";
-import { ChevronLeft, Copy } from "lucide-react";
+import { Check, ChevronLeft, Copy, Shirt } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { updateMatchInfo } from "@/lib/firebase";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-interface iPlayerList {
-  [key: string]: iPlayerListItemDraggable[];
-}
-
-const CreateTeamPage = () => {
+const CreateTeamPage = ({ params }: { params: { match: string } }) => {
   const router = useRouter();
   const t = useTranslations();
-  const { matchInfo, copyMessage } = useMatch();
-
-  const [playerList, setPlayerList] = useState<iPlayerList>({
-    teamA: [],
-    teamB: [],
-  });
-
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, {
-      coordinateGetter: sortableKeyboardCoordinates,
-    })
-  );
+  const { matchInfo, setMatchInfo, copyTeamsList, isCopyLink } = useMatch();
 
   function findContainer(id: string): string | undefined {
-    return Object.keys(playerList).find((key) =>
-      playerList[key].some((player) => player.id === id)
+    return Object.keys(matchInfo.teams).find((key) =>
+      matchInfo.teams[key].some((player: iUser) => player.uid === id)
     );
   }
 
-  function handleDragOver(event: any) {
-    const { active, over, draggingRect } = event;
+  function savePlayerList(matchId: string, data: any) {
+    updateMatchInfo(matchId, data);
+  }
 
-    // Find the containers
-    const activeContainer = findContainer(active.id);
-    const overContainer = findContainer(over.id);
+  function handleChangeTeam(id: string) {
+    const activeTeam = findContainer(id) as string;
+    const otherTeam = activeTeam === "teamA" ? "teamB" : "teamA";
+    const activePlayer = matchInfo.teams[activeTeam].find(
+      (player: iUser) => player.uid === id
+    );
+    const restOfPlayers = matchInfo.teams[activeTeam as string].filter(
+      (player: iUser) => player.uid !== id
+    );
 
-    if (
-      !activeContainer ||
-      !overContainer ||
-      activeContainer === overContainer
-    ) {
-      return;
-    }
-
-    setPlayerList((prev) => {
-      const activeItems = prev[activeContainer];
-      const overItems = prev[overContainer];
-
-      // Find the indexes for the items
-      const activeIndex = activeItems.findIndex(
-        (elem) => elem.id === active.id
-      );
-      const overIndex = overItems.findIndex((elem) => elem.id === over.id);
-
-      const isIdInPrev =
-        activeItems.some((item) => item.id === over.id) ||
-        overItems.some((item) => item.id === over.id);
-
-      let newIndex;
-      if (isIdInPrev) {
-        // We're at the root droppable of a container
-        newIndex = overItems.length + 1;
-      } else {
-        const isBelowLastItem =
-          over &&
-          overIndex === overItems.length - 1 &&
-          draggingRect.offsetTop > over.rect.offsetTop + over.rect.height;
-
-        const modifier = isBelowLastItem ? 1 : 0;
-
-        newIndex = overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
-      }
-
-      // Remove the active item from activeItems array
-      const updatedActiveItems = [
-        ...activeItems.slice(0, activeIndex),
-        ...activeItems.slice(activeIndex + 1),
-      ];
-
-      return {
+    if (activePlayer) {
+      setMatchInfo((prev: iMatch) => ({
         ...prev,
-        [activeContainer]: updatedActiveItems,
-        [overContainer]: [
-          ...overItems.slice(0, newIndex),
-          playerList[activeContainer][activeIndex],
-          ...overItems.slice(newIndex, overItems.length),
-        ],
-      };
-    });
-  }
-
-  function handleDragEnd(event: any) {
-    const { active, over } = event;
-
-    const activeContainer = findContainer(active.id);
-    const overContainer = findContainer(over.id);
-
-    if (
-      !activeContainer ||
-      !overContainer ||
-      activeContainer !== overContainer
-    ) {
-      return;
-    }
-
-    const activeIndex = playerList[activeContainer].findIndex(
-      (elem) => elem.id === active.id
-    );
-    const overIndex = playerList[overContainer].findIndex(
-      (elem) => elem.id === over.id
-    );
-
-    if (activeIndex !== overIndex) {
-      setPlayerList((items) => ({
-        ...items,
-        [overContainer]: arrayMove(
-          playerList[overContainer],
-          activeIndex,
-          overIndex
-        ),
+        teams: {
+          [activeTeam]: restOfPlayers,
+          [otherTeam]: [...prev.teams[otherTeam], activePlayer],
+        },
       }));
+      savePlayerList(params.match, {
+        teams: {
+          [activeTeam]: restOfPlayers,
+          [otherTeam]: [...matchInfo.teams[otherTeam], activePlayer],
+        },
+      });
     }
   }
 
   useEffect(() => {
-    if (matchInfo) {
-      setPlayerList({
-        teamA:
-          matchInfo.playerList.slice(0, 7).map((player: iUser) => {
-            const { uid, ...rest } = player;
-            return { id: uid, ...rest };
-          }) || [],
-        teamB:
-          matchInfo.playerList.slice(8, 13).map((player: iUser) => {
-            const { uid, ...rest } = player;
-            return { id: uid, ...rest };
-          }) || [],
+    if (matchInfo && !matchInfo.hasOwnProperty("teams")) {
+      savePlayerList(params.match, {
+        teams: {
+          teamA: matchInfo.playerList.slice(0, 7) || [],
+          teamB: matchInfo.playerList.slice(8, 13) || [],
+        },
       });
     }
   }, [matchInfo]);
@@ -165,32 +71,70 @@ const CreateTeamPage = () => {
           {t("userNavigation.backButton")}
         </Button>
       </div>
-      <div className="my-6">
-        <Button
-          className="w-full"
-          onClick={() => copyMessage("lista de jugadores")}
-        >
-          <Copy size={20} className="mr-2" /> Copiar Equipos
-        </Button>
+      <Card>
+        <CardHeader>
+          <h3 className="text-center">
+            Para cambiar un jugador de equipo pulsar sobre un jugador para
+            cambiarlo
+          </h3>
+        </CardHeader>
+        <CardContent>
+          <Button
+            className="w-full"
+            onClick={copyTeamsList}
+            disabled={isCopyLink}
+          >
+            <Copy size={20} className="mr-2" /> Copiar Lista de Equipos{" "}
+            {isCopyLink && <Check size={20} className="ml-2" />}
+          </Button>
+        </CardContent>
+      </Card>
+      <div className="flex flex-col gap-2 mt-6">
+        <h3 className="text-xl">{t("createPage.titleWhite")}</h3>
+        <div className="flex flex-col gap-2 mb-8 bg-slate-100 dark:bg-slate-800 p-4 rounded-md">
+          {matchInfo?.teams?.teamA.map((player: iUser) => (
+            <div
+              className="flex items-center w-full border p-2 bg-white dark:bg-slate-950 rounded-md cursor-pointer"
+              key={player.uid}
+              onClick={() => handleChangeTeam(player.uid)}
+            >
+              <div className="flex items-center w-full">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={player.avatar} alt={player.name} />
+                  <AvatarFallback>{player.name.slice(0, 2)}</AvatarFallback>
+                </Avatar>
+                <p className="px-3 truncate">{player.name}</p>
+              </div>
+              <div className="flex items-center gap-3 rounded-full border p-2 bg-white">
+                <Shirt size="16" color="black" />
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-
-      <DndContext
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-        onDragOver={handleDragOver}
-        sensors={sensors}
-      >
-        <PlayerListAreaSortable
-          title={t("createPage.titleWhite")}
-          id={"teamA"}
-          players={playerList.teamA}
-        />
-        <PlayerListAreaSortable
-          title={t("createPage.titleBlack")}
-          id={"teamB"}
-          players={playerList.teamB}
-        />
-      </DndContext>
+      <div className="flex flex-col gap-2 mt-2">
+        <h3 className="text-xl">{t("createPage.titleBlack")}</h3>
+        <div className="flex flex-col gap-2 mb-8 bg-slate-100 dark:bg-slate-800 p-4 rounded-md">
+          {matchInfo?.teams?.teamB.map((player: iUser) => (
+            <div
+              className="flex items-center w-full border p-2 bg-white dark:bg-slate-950 rounded-md cursor-pointer"
+              key={player.uid}
+              onClick={() => handleChangeTeam(player.uid)}
+            >
+              <div className="flex items-center w-full">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={player.avatar} alt={player.name} />
+                  <AvatarFallback>{player.name.slice(0, 2)}</AvatarFallback>
+                </Avatar>
+                <p className="px-3 truncate">{player.name}</p>
+              </div>
+              <div className="flex items-center gap-3 rounded-full p-2 bg-black">
+                <Shirt size="16" color="white" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </>
   );
 };

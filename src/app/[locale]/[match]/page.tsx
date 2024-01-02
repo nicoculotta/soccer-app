@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { MatchProvider } from "@/context/matchContext";
 import MatchInfoButtons from "@/components/MatchInfoButtons/MatchInfoButtons";
 import MatchPlayerList from "@/components/MatchPlayerList/MatchPlayerList";
 import { useAuth } from "@/context/authContext";
