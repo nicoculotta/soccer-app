@@ -66,15 +66,14 @@ const MatchInfoButtons = () => {
               {isCopyLink && <Check size={20} className="ml-2" />}
             </Button>
           </div>
-          {(user.role === "admin" || user.role === "super") &&
-            matchInfo.owner.name === user.name && (
-              <Button className="flex-1" variant={"secondary"} asChild>
-                <Link href={`${pathname}/create`}>
-                  <UsersRound size={20} className="mr-2" />
-                  {t("matchPage.createTeam")}
-                </Link>
-              </Button>
-            )}
+          {(user.role === "admin" || user.role === "super") && (
+            <Button className="flex-1" variant={"secondary"} asChild>
+              <Link href={`${pathname}/create`}>
+                <UsersRound size={20} className="mr-2" />
+                {t("matchPage.createTeam")}
+              </Link>
+            </Button>
+          )}
         </div>
       )}
     </div>
