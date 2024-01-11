@@ -56,8 +56,8 @@ const CreateTeamPage = ({ params }: { params: { match: string } }) => {
     if (matchInfo && !matchInfo.hasOwnProperty("teams")) {
       savePlayerList(params.match, {
         teams: {
-          teamA: matchInfo.playerList.slice(0, 7) || [],
-          teamB: matchInfo.playerList.slice(8, 13) || [],
+          teamA: matchInfo.playerList.slice(0, 8) || [],
+          teamB: matchInfo.playerList.slice(8, 16) || [],
         },
       });
     }

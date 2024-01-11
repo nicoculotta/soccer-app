@@ -62,8 +62,14 @@ export const createListOfPlayers = (list: iUser[] | undefined) => {
   let playersToText = "";
 
   if (list) {
-    for (let i = 0; i < list.length; i++) {
+    for (let i = 0; i < 16; i++) {
       playersToText += `${i + 1}. ${list[i].name}\n`;
+    }
+    if (list.length > 16) {
+      playersToText += `\nReservas\n\n`;
+      for (let i = 16; i < list.length; i++) {
+        playersToText += `${i + 1}. ${list[i].name}\n`;
+      }
     }
     return playersToText;
   }
