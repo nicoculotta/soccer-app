@@ -61,8 +61,8 @@ export const formatDayName = (day: string, locale: string) => {
 export const createListOfPlayers = (list: iUser[] | undefined) => {
   let playersToText = "";
 
-  if (list) {
-    for (let i = 0; i < 16; i++) {
+  if (list && list?.length < 16) {
+    for (let i = 0; i < list?.length; i++) {
       playersToText += `${i + 1}. ${list[i].name}\n`;
     }
     if (list.length > 16) {
