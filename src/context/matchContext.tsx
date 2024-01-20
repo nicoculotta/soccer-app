@@ -2,9 +2,9 @@
 
 import { useToast } from "@/components/ui/use-toast";
 import { iMatch, iUser } from "@/types/types";
-import { createListOfPlayers } from "@/utils/formatters";
+import { createListOfPlayers, formatDayName } from "@/utils/formatters";
 import { collection, doc, onSnapshot } from "firebase/firestore";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import {
   createContext,
@@ -29,6 +29,7 @@ export const MatchProvider = ({
   const { user } = useAuth();
   const pathname = usePathname();
   const { toast } = useToast();
+  const locale = useLocale();
 
   const [matchInfo, setMatchInfo] = useState<iMatch | null>(null);
   const [isPlayerInList, setIsPlayerInList] = useState(false);
@@ -105,7 +106,7 @@ export const MatchProvider = ({
     const enrolledPlayers = `(${matchInfo?.playerList.length}/16)`;
 
     const textToCopy = `\u26BD\u{1F5D2}\uFE0F ${t("matchPage.copyMatchLink", {
-      day: matchInfo?.date,
+      day: matchInfo && formatDayName(matchInfo.day, locale),
       time: matchInfo?.time,
       link: window.location.origin + pathname,
     })}\n\n👤${t("matchPage.playerList", {

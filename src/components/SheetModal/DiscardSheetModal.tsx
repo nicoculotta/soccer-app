@@ -13,6 +13,7 @@ import { SheetModal } from "./SheetModal";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useMatch } from "@/context/matchContext";
+import { useAuth } from "@/context/authContext";
 
 interface iDiscardSheetModal {
   isOpen: boolean;
@@ -21,7 +22,9 @@ interface iDiscardSheetModal {
 
 const DiscardSheetModal = ({ isOpen, setIsOpen }: iDiscardSheetModal) => {
   const t = useTranslations();
-  const { matchInfo, backupPlayerIsDown, copyMessage } = useMatch();
+  const { user } = useAuth();
+  const { matchInfo, backupPlayerIsDown, copyMessage, handleDeletePlayer } =
+    useMatch();
   const pathname = usePathname();
 
   const messageToCopy = () => {
@@ -39,10 +42,15 @@ const DiscardSheetModal = ({ isOpen, setIsOpen }: iDiscardSheetModal) => {
     }
   };
 
+  const handleDelete = () => {
+    handleDeletePlayer(user.uid);
+    copyMessage(messageToCopy());
+  };
+
   return (
     <SheetModal isOpen={isOpen} setIsOpen={setIsOpen}>
       <SheetHeader>
-        <SheetTitle className="text-xl">{`\u{1F62D} ${t(
+        <SheetTitle className="text-xl">{`${t(
           "matchPage.modal.title"
         )} \u{1F62D}`}</SheetTitle>
         <SheetDescription className="text-md">
@@ -54,9 +62,14 @@ const DiscardSheetModal = ({ isOpen, setIsOpen }: iDiscardSheetModal) => {
         {messageToCopy()}
       </SheetDescription>
 
-      <SheetFooter>
+      <SheetFooter className="gap-2">
         <SheetClose asChild>
-          <Button type="submit" onClick={() => copyMessage(messageToCopy())}>
+          <Button variant={"outline"}>
+            {t("matchPage.modal.cancelButton")}
+          </Button>
+        </SheetClose>
+        <SheetClose asChild>
+          <Button type="submit" onClick={handleDelete}>
             {t("matchPage.modal.copyMessageButton")}
           </Button>
         </SheetClose>

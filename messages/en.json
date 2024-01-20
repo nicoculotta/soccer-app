@@ -42,15 +42,16 @@
     "noPlayers": "No players yet",
     "players": "Players",
     "backup": "Backup",
-    "copyMatchLink": "Match list { day } at { time }hs - { link }",
+    "copyMatchLink": "Match list for { day } at { time }hs - { link }",
     "playerList": "{number} Enrolled players:",
     "modal": {
-      "title": "You're out of the game",
-      "text": "Someone from the backup will take your seat, please use the link to notify us by WhatsApp.",
+      "title": "Are you sure you're not goint to play?",
+      "text": "Someone from the backup will take your place, please use the link to notify us by WhatsApp.",
       "message": "I'm not coming to the match, “{reserva}” is your turn {link}",
       "messageNoBackup": "“I'm not comming to the match - { link }”",
-      "copyMessageButton": "Copy Message",
-      "copiedMessage": "Message Copied"
+      "copyMessageButton": "Confirm and Copy Message",
+      "copiedMessage": "Message Copied",
+      "cancelButton": "Cancel"
     }
   },
   "createPage": {

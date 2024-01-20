@@ -13,8 +13,8 @@ const locales = ["en", "es"];
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Futbol El Palo",
-  description: "A jugar",
+  title: "Furbo",
+  description: "A jugá",
 };
 
 export default function RootLayout({

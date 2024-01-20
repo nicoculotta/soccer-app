@@ -43,15 +43,16 @@
     "enrolledMatch": "Apuntado",
     "players": "Jugadores",
     "backup": "Reserva",
-    "copyMatchLink": "Lista del partido del dia { day } a las { time }hs - { link }",
+    "copyMatchLink": "Lista para el dia { day } a las { time }hs - { link }",
     "playerList": "{number} Jugadores anotados:",
     "modal": {
-      "title": "Estás fuera del partido",
+      "title": "¿Estás seguro que no quieres jugar?",
       "text": "Entrará alguien de la reserva, por favor copia el mensaje para avisar por whatsapp al grupo.",
       "message": "“Me bajo del partido de hoy, entra “{ reserva }” al partido - { link }”",
       "messageNoBackup": "“Me bajo del partido de hoy - { link }”",
-      "copyMessageButton": "Copiar Mensaje",
-      "copiedMessage": "Mensaje Copiado"
+      "copyMessageButton": "Confirmar y Copiar Mensaje",
+      "copiedMessage": "Mensaje Copiado",
+      "cancelButton": "Cancelar"
     }
   },
   "createPage": {

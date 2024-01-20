@@ -18,9 +18,10 @@ const MatchInfoButtons = () => {
     matchInfo,
     isPlayerInList,
     isCopyLink,
-    handleDeletePlayer,
     handleAddPlayer,
     copyLink,
+    isDiscardOpen,
+    setIsDiscardOpen,
   } = useMatch();
 
   return (
@@ -45,7 +46,7 @@ const MatchInfoButtons = () => {
               )}
               onClick={() =>
                 isPlayerInList
-                  ? handleDeletePlayer(user.uid)
+                  ? setIsDiscardOpen(!isDiscardOpen)
                   : handleAddPlayer(user)
               }
             >
