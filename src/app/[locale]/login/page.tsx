@@ -2,11 +2,13 @@
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/authContext";
 import { useTranslations } from "next-intl";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Login() {
+  const { theme } = useTheme();
   const { user, signInWithGoogle } = useAuth();
   const router = useRouter();
   const t = useTranslations("login");
@@ -24,7 +26,13 @@ export default function Login() {
 
       <div className="flex flex-col">
         <div className="flex flex-col justify-center items-center h-full mb-20 md:mb-0">
-          <h1 className="text-4xl font-bold text-center mb-6">Furbo</h1>
+          <Image
+            src={theme === "light" ? "/furbo.svg" : "/furbo-dark.svg"}
+            alt="Furbo Logo"
+            width={180}
+            height={40}
+            className="mb-6"
+          />
           <div className="flex flex-col gap-2 max-w-sm w-full px-4">
             <Button onClick={signInWithGoogle}>{t("withGoogleButton")}</Button>
             <p className="mt-4 text-xs text-muted-foreground text-center">

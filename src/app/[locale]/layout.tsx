@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import { AuthProvider } from "@/context/authContext";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { notFound } from "next/navigation";
@@ -15,6 +15,10 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Furbo",
   description: "A jugá",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({
