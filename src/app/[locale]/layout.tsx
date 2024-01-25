@@ -15,6 +15,17 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Furbo",
   description: "A jugá",
+  metadataBase: new URL("https://furboelpalo.netlify.app"),
+  alternates: {
+    canonical: "/",
+    languages: {
+      "es-ES": "/es",
+      "en-US": "/en",
+    },
+  },
+  openGraph: {
+    images: "/opengraph-image.png",
+  },
 };
 
 export const viewport: Viewport = {
