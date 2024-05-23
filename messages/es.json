@@ -48,8 +48,8 @@
     "modal": {
       "title": "¿Estás seguro que no quieres jugar?",
       "text": "Entrará alguien de la reserva, por favor copia el mensaje para avisar por whatsapp al grupo.",
-      "message": "“Me bajo del partido de hoy, entra “{ reserva }” al partido - { link }”",
-      "messageNoBackup": "“Me bajo del partido de hoy - { link }”",
+      "message": "“Me bajo del partido, entra “{ reserva }” al partido - { link }”",
+      "messageNoBackup": "“Me bajo del partido - { link }”",
       "copyMessageButton": "Confirmar y Copiar Mensaje",
       "copiedMessage": "Mensaje Copiado",
       "cancelButton": "Cancelar"
