@@ -18,6 +18,8 @@
     "backButton": "Volver"
   },
   "homePage": {
+    "yellowButton": "Amonestados",
+    "noYellowCard": "No hay amonestados, aún...",
     "createMatchButton": "Crear Partido",
     "watchListButton": "Ver lista",
     "notAvailableListButton": "Lista no disponible",
@@ -31,7 +33,8 @@
     "emptyMatchesUser": "Parece que no hay partidos, un administrador creará uno"
   },
   "adminPage": {
-    "UsersTitle": "Usuarios"
+    "UsersTitle": "Administradores",
+    "YellowTitle": "Amonestados"
   },
   "matchPage": {
     "shareButton": "Copiar lista",
@@ -53,7 +56,9 @@
       "copyMessageButton": "Confirmar y Copiar Mensaje",
       "copiedMessage": "Mensaje Copiado",
       "cancelButton": "Cancelar"
-    }
+    },
+    "yellowTitle": "Tienes una tarjeta amarilla",
+    "yellowDescription": "Motivo: Llegaste tarde a algún partido, te bajaste de la lista con poco tiempo de anticipación o tuviste un mal comportamiento con el grupo. Esto es una advertencia, la próxima quedarás eliminado del grupo"
   },
   "createPage": {
     "titleWhite": "Equipo Blanco",

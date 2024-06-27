@@ -1,7 +1,11 @@
 import Navbar from "@/components/Navbar/Navbar";
 import { ReactNode } from "react";
 
-export default function AdminPageLayout({ children }: { children: ReactNode }) {
+export default function YellowPageLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
   return (
     <>
       <Navbar />

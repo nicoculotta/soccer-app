@@ -18,6 +18,8 @@
     "backButton": "Back"
   },
   "homePage": {
+    "yellowButton": "Booked Players",
+    "noYellowCard": "No booked players, yet...",
     "createMatchButton": "Create match",
     "watchListButton": "Watch list",
     "notAvailableListButton": "List not available",
@@ -31,7 +33,8 @@
     "emptyMatchesUser": "Seems like we don't have games, an Admin will create one"
   },
   "adminPage": {
-    "UsersTitle": "Users"
+    "UsersTitle": "Users",
+    "YellowTitle": "Assign Yellow Card"
   },
   "matchPage": {
     "shareButton": "Copy list",
@@ -52,7 +55,9 @@
       "copyMessageButton": "Confirm and Copy Message",
       "copiedMessage": "Message Copied",
       "cancelButton": "Cancel"
-    }
+    },
+    "yellowTitle": "You've got a yellow card",
+    "yellowDescription": "You arrived late to a game or withdrew from the list on short notice. This is a warning; next time, you will be removed from the group."
   },
   "createPage": {
     "titleWhite": "Team White",

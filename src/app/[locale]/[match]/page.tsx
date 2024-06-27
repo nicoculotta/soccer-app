@@ -7,10 +7,27 @@ import MatchInfoButtons from "@/components/MatchInfoButtons/MatchInfoButtons";
 import MatchPlayerList from "@/components/MatchPlayerList/MatchPlayerList";
 import { useAuth } from "@/context/authContext";
 import { MatchSkeleton } from "@/components/Skeletons/MatchSkeleton";
+import CustomSheetModal from "@/components/SheetModal/CustomSheetModal";
+import { useEffect, useState } from "react";
+import {
+  SheetClose,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import { SheetModal } from "@/components/SheetModal/SheetModal";
 
 export default function MatchPage({ params }: { params: { match: string } }) {
   const t = useTranslations();
   const { user, loading } = useAuth();
+  const [modalOpen, setModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setModalOpen(user.yellow);
+    }
+  }, [user]);
 
   if (loading) return <MatchSkeleton />;
 
@@ -30,6 +47,18 @@ export default function MatchPage({ params }: { params: { match: string } }) {
       </div>
       <MatchInfoButtons />
       <MatchPlayerList />
+      <SheetModal isOpen={modalOpen} setIsOpen={() => setModalOpen(!modalOpen)}>
+        <SheetHeader>
+          <SheetTitle className="text-xl mt-10">🟨</SheetTitle>
+          <SheetTitle className="text-xl mt-10">{`${t(
+            "matchPage.yellowTitle"
+          )}`}</SheetTitle>
+          <SheetDescription className="text-md">
+            {t("matchPage.yellowDescription")}
+          </SheetDescription>
+          <div className="h-10"></div>
+        </SheetHeader>
+      </SheetModal>
     </>
   );
 }

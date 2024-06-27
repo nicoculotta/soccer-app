@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
@@ -10,6 +11,7 @@ interface iPlayerListItem {
   role: string;
   deleteIcon: boolean;
   onDelete: () => void;
+  yellowCard: boolean;
 }
 
 const PlayerListItem = ({
@@ -19,9 +21,15 @@ const PlayerListItem = ({
   deleteIcon,
   role,
   onDelete,
+  yellowCard,
 }: iPlayerListItem) => {
   return (
-    <div className="flex items-center justify-between bg-slate-100 dark:bg-slate-900 py-2 px-4 rounded-md">
+    <div
+      className={cn(
+        "flex items-center justify-between bg-slate-100 dark:bg-slate-900 py-2 px-4 rounded-md",
+        yellowCard ? "border-2 border-yellow-500" : ""
+      )}
+    >
       <div className="flex items-center w-full">
         {deleteIcon && (
           <Button className="p-2 mr-2" variant="ghost" onClick={onDelete}>

@@ -22,6 +22,7 @@ const PlayerList = ({ title, list, isAdmin }: iPlayerList) => {
   if (isLoading) {
     return <MatchSkeleton />;
   }
+
   return (
     <div>
       <h2>{title}</h2>
@@ -45,6 +46,7 @@ const PlayerList = ({ title, list, isAdmin }: iPlayerList) => {
               onDelete={() => handleDeletePlayer(player.uid)}
               role={player.role}
               deleteIcon={isAdmin || user.role === "super"}
+              yellowCard={player.yellow}
             />
           ))
         )}

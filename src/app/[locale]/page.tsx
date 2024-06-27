@@ -16,9 +16,11 @@ import { useLocale, useTranslations } from "next-intl";
 import { iMatch } from "@/types/types";
 import { collection, onSnapshot, orderBy } from "firebase/firestore";
 import CustomSheetModal from "@/components/SheetModal/CustomSheetModal";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const t = useTranslations("homePage");
+  const router = useRouter();
   const locale = useLocale();
   const { user, loading } = useAuth();
   const [date, setDate] = useState<Date>();
@@ -82,16 +84,25 @@ export default function Home() {
     <>
       <Navbar />
       <main className="max-w-sm mx-auto px-2">
-        {user.role !== "user" && (
+        <div className="flex gap-2 justify-between">
+          {user.role !== "user" && (
+            <Button
+              variant="outline"
+              size={"sm"}
+              onClick={() => setisModalOpen(!isModalOpen)}
+              className="mt-4"
+            >
+              <Plus className="mr-2 h-4 w-4" /> {t("createMatchButton")}
+            </Button>
+          )}
           <Button
-            variant="outline"
             size={"sm"}
-            onClick={() => setisModalOpen(!isModalOpen)}
-            className="mt-4"
+            onClick={() => router.push(`${locale}/yellow`)}
+            className="mt-4 bg-yellow-500 text-black dark:bg-yellow-400"
           >
-            <Plus className="mr-2 h-4 w-4" /> {t("createMatchButton")}
+            {t("yellowButton")}
           </Button>
-        )}
+        </div>
         <CustomSheetModal
           isOpen={isModalOpen}
           setIsOpen={() => setisModalOpen(!isModalOpen)}

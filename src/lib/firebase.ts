@@ -9,6 +9,9 @@ import {
   getDoc,
   getDocs,
   deleteDoc,
+  writeBatch,
+  query,
+  where,
 } from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -133,4 +136,67 @@ export const getMatchById = async (uid: string): Promise<iMatch> => {
   const matchRef = doc(collectionRef, uid);
   const res = await getDoc(matchRef);
   return res.data() as iMatch;
+};
+
+// ADMIN FUNCTIONS
+
+export const addYellowProp = async () => {
+  try {
+    const collectionRef = collection(db, "users");
+    const querySnapshot = await getDocs(collectionRef);
+    const batch = writeBatch(db);
+
+    querySnapshot.forEach((doc) => {
+      const docRef = doc.ref;
+      batch.update(docRef, { yellow: false });
+    });
+
+    await batch.commit();
+    console.log("Finished updating all users");
+  } catch (error) {
+    console.error("Error updating users:", error);
+    throw error;
+  }
+};
+
+export const addYellowCard = async (uid: string, data: { yellow: boolean }) => {
+  try {
+    const collectionRef = collection(db, "users");
+    const docRef = doc(collectionRef, uid);
+    await setDoc(docRef, data, { merge: true });
+  } catch (error) {}
+};
+
+export const usersWithYellowCard = async () => {
+  try {
+    const result: iUser[] = [];
+    const collectionRef = collection(db, "users");
+    const q = query(collectionRef, where("yellow", "==", true));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      result.push(doc.data() as iUser);
+    });
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const searchUsers = async (name: string) => {
+  try {
+    const result: iUser[] = [];
+    const collectionRef = collection(db, "users");
+    const q = query(
+      collectionRef,
+      where("name", ">=", name),
+      where("name", "<=", name + "\uf8ff")
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      result.push(doc.data() as iUser);
+    });
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
 };

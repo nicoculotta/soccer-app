@@ -5,6 +5,7 @@ export interface iUser {
   provider: string;
   avatar: string;
   role: string;
+  yellow: boolean;
 }
 
 export interface iMatch {
