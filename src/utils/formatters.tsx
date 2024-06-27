@@ -9,6 +9,7 @@ export const formatUser = (user: User, role: string): iUser => {
     provider: user.providerData[0].providerId,
     avatar: user.photoURL,
     role: role,
+    yellow: false,
   };
 };
 
