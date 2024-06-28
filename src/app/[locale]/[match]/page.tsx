@@ -17,6 +17,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { SheetModal } from "@/components/SheetModal/SheetModal";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 export default function MatchPage({ params }: { params: { match: string } }) {
   const t = useTranslations();
@@ -48,8 +49,11 @@ export default function MatchPage({ params }: { params: { match: string } }) {
       <MatchInfoButtons />
       <MatchPlayerList />
       <SheetModal isOpen={modalOpen} setIsOpen={() => setModalOpen(!modalOpen)}>
-        <SheetHeader>
-          <SheetTitle className="text-xl mt-10">🟨</SheetTitle>
+        <SheetHeader className="flex justify-center items-center">
+          <Avatar className="h-20 w-20  bg-slate-100 mt-4 border-2 border-slate-300">
+            <AvatarImage className="object-contain" src={"/amonestado.png"} />
+          </Avatar>
+
           <SheetTitle className="text-xl mt-10">{`${t(
             "matchPage.yellowTitle"
           )}`}</SheetTitle>
