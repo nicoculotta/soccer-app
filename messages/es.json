@@ -61,6 +61,10 @@
       "copiedMessage": "Mensaje Copiado",
       "cancelButton": "Cancelar"
     },
+    "deletePlayerConfirmation": {
+      "title": "Eliminar jugador",
+      "message": "¿Estás seguro que quieres eliminar a {name} del partido?"
+    },
     "yellowTitle": "Tienes una tarjeta amarilla",
     "yellowDescription": "Motivo: Llegaste tarde a algún partido, te bajaste de la lista con poco tiempo de anticipación o tuviste un mal comportamiento con el grupo. Esto es una advertencia, la próxima quedarás eliminado del grupo"
   },
@@ -79,7 +83,15 @@
       "unbalancedTeams": {
         "title": "Error",
         "description": "No se puede realizar el cambio porque dejaría los equipos muy desbalanceados."
+      },
+      "tooManyPlayers": {
+        "title": "Atención",
+        "description": "Solo se muestran los primeros 16 jugadores para formar equipos."
       }
     }
+  },
+  "common": {
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
   }
 }

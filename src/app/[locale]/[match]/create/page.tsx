@@ -17,6 +17,19 @@ const CreateTeamPage = ({ params }: { params: { match: string } }) => {
   const { matchInfo, setMatchInfo, copyTeamsList, isCopyLink } = useMatch();
   const [teamsInitialized, setTeamsInitialized] = useState(false);
 
+  // Función para verificar si un jugador está en el top 16
+  const isPlayerInTop16 = (uid: string) => {
+    if (!matchInfo?.playerList) return false;
+    
+    // Encontrar el índice del jugador en la lista completa
+    const playerIndex = matchInfo.playerList.findIndex(
+      (player: iUser) => player.uid === uid
+    );
+    
+    // Retorna true si el jugador está entre los primeros 16
+    return playerIndex >= 0 && playerIndex < 16;
+  };
+
   function findContainer(id: string): string | undefined {
     if (!matchInfo?.teams) return undefined;
     return Object.keys(matchInfo.teams).find((key) =>
@@ -30,6 +43,11 @@ const CreateTeamPage = ({ params }: { params: { match: string } }) => {
 
   function handleChangeTeam(id: string) {
     if (!matchInfo?.teams) return;
+    
+    // Solo permitir mover jugadores que están en el top 16
+    if (!isPlayerInTop16(id)) {
+      return;
+    }
 
     const activeTeam = findContainer(id) as string;
     const otherTeam = activeTeam === "teamA" ? "teamB" : "teamA";
@@ -106,8 +124,15 @@ const CreateTeamPage = ({ params }: { params: { match: string } }) => {
 
   // Garantizar que teams existe y tiene las propiedades teamA y teamB como arrays
   const teams = matchInfo.teams || { teamA: [], teamB: [] };
-  const teamA = Array.isArray(teams.teamA) ? teams.teamA : [];
-  const teamB = Array.isArray(teams.teamB) ? teams.teamB : [];
+  
+  // Filtrar equipos para solo incluir jugadores que están en los primeros 16
+  const teamA = Array.isArray(teams.teamA) 
+    ? teams.teamA.filter((player: iUser) => isPlayerInTop16(player.uid)) 
+    : [];
+  
+  const teamB = Array.isArray(teams.teamB) 
+    ? teams.teamB.filter((player: iUser) => isPlayerInTop16(player.uid)) 
+    : [];
   
   const teamALength = teamA.length;
   const teamBLength = teamB.length;

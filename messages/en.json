@@ -61,6 +61,10 @@
       "copiedMessage": "Message Copied",
       "cancelButton": "Cancel"
     },
+    "deletePlayerConfirmation": {
+      "title": "Remove player",
+      "message": "Are you sure you want to remove {name} from the match?"
+    },
     "yellowTitle": "You've got a yellow card",
     "yellowDescription": "You arrived late to a game or withdrew from the list on short notice. This is a warning; next time, you will be removed from the group."
   },
@@ -79,7 +83,15 @@
       "unbalancedTeams": {
         "title": "Error",
         "description": "Cannot make this change as it would make teams too unbalanced."
+      },
+      "tooManyPlayers": {
+        "title": "Attention",
+        "description": "Only the first 16 players are shown to form teams."
       }
     }
+  },
+  "common": {
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   }
 }
