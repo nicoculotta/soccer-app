@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Soccer App
 
-## Getting Started
+Una aplicación web para gestionar partidos y equipos de fútbol amateur, desarrollada con Next.js, Tailwind CSS y Firebase.
 
-First, run the development server:
+## Características
+
+- Gestión de jugadores y equipos
+- Programación de partidos
+- Sistema de tarjetas amarillas/rojas
+- Feed de comentarios para jugadores
+- Interfaz de arrastrar y soltar para organización
+- Soporte multilingüe
+- Diseño responsive y modo oscuro
+
+## Tecnologías
+
+- [Next.js 14](https://nextjs.org/)
+- [React 18](https://reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Firebase](https://firebase.google.com/)
+- [Radix UI](https://www.radix-ui.com/)
+- [DND Kit](https://dndkit.com/)
+- [React Hook Form](https://react-hook-form.com/)
+- [Next-Intl](https://next-intl-docs.vercel.app/)
+
+## Requisitos
+
+- Node.js 18.x o superior
+- NPM o Yarn
+
+## Instalación
+
+1. Clona el repositorio:
+```bash
+git clone https://github.com/tuusuario/soccer-app.git
+cd soccer-app
+```
+
+2. Instala las dependencias:
+```bash
+npm install
+# o
+yarn install
+```
+
+3. Configura las variables de entorno (crea un archivo `.env.local`):
+```
+NEXT_PUBLIC_FIREBASE_API_KEY=tu_api_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=tu_dominio.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=tu_proyecto_id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=tu_bucket.appspot.com
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=tu_sender_id
+NEXT_PUBLIC_FIREBASE_APP_ID=tu_app_id
+```
+
+## Desarrollo
+
+Inicia el servidor de desarrollo:
 
 ```bash
 npm run dev
-# or
+# o
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver la aplicación.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Despliegue
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+La forma más sencilla de desplegar esta aplicación es utilizar [Vercel](https://vercel.com):
 
-## Learn More
+```bash
+npm install -g vercel
+vercel
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Licencia
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+MIT

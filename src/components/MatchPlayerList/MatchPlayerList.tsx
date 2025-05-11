@@ -26,7 +26,7 @@ const MatchPlayerList = () => {
 
   return (
     <>
-      {true && (
+      {false && (
         <Button onClick={addFakePlayers}>Agregar jugadores FAKE</Button>
       )}
       <PlayerList

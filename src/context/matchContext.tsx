@@ -207,14 +207,27 @@ export const MatchProvider = ({
 
   // Copiar lista de equipos negro o blanco
   const copyTeamsList = () => {
-    const textTeamA = createListOfPlayers(matchInfo?.teams.teamA);
-    const textTeamB = createListOfPlayers(matchInfo?.teams.teamB);
+    if (!matchInfo || !matchInfo.teams) {
+      toast({
+        title: t("createPage.alerts.fewPlayers.title"),
+        description: "No hay equipos definidos todavía.",
+      });
+      return;
+    }
+    
+    // Garantizar que los equipos son arrays válidos
+    const teamA = Array.isArray(matchInfo.teams.teamA) ? matchInfo.teams.teamA : [];
+    const teamB = Array.isArray(matchInfo.teams.teamB) ? matchInfo.teams.teamB : [];
+    
+    // Crear texto para cada equipo
+    const textTeamA = createListOfPlayers(teamA);
+    const textTeamB = createListOfPlayers(teamB);
 
     const textToCopy = `\u{1F3F3}\uFE0F ${t(
       "createPage.titleWhite"
-    )}\n\n${textTeamA}\n\n\u{1F3F4}${t(
+    )} (${teamA.length})\n\n${textTeamA}\n\n\u{1F3F4}${t(
       "createPage.titleBlack"
-    )}\n\n${textTeamB}`;
+    )} (${teamB.length})\n\n${textTeamB}`;
 
     navigator.clipboard.writeText(textToCopy);
     setIsCopyLink(true);

@@ -66,6 +66,20 @@
   },
   "createPage": {
     "titleWhite": "Team White",
-    "titleBlack": "Team Black"
+    "titleBlack": "Team Black",
+    "instructions": "To change a player's team, tap on the player you want to move",
+    "copyTeamsList": "Copy Teams List",
+    "loading": "Loading teams...",
+    "noPlayers": "No players in this team",
+    "alerts": {
+      "fewPlayers": {
+        "title": "Attention",
+        "description": "Only {count} players available to create teams."
+      },
+      "unbalancedTeams": {
+        "title": "Error",
+        "description": "Cannot make this change as it would make teams too unbalanced."
+      }
+    }
   }
 }

@@ -66,6 +66,20 @@
   },
   "createPage": {
     "titleWhite": "Equipo Blanco",
-    "titleBlack": "Equipo Negro"
+    "titleBlack": "Equipo Negro",
+    "instructions": "Para cambiar un jugador de equipo pulsar sobre un jugador para cambiarlo",
+    "copyTeamsList": "Copiar Lista de Equipos",
+    "loading": "Cargando equipos...",
+    "noPlayers": "No hay jugadores en este equipo",
+    "alerts": {
+      "fewPlayers": {
+        "title": "Atención",
+        "description": "Solo hay {count} jugadores disponibles para armar equipos."
+      },
+      "unbalancedTeams": {
+        "title": "Error",
+        "description": "No se puede realizar el cambio porque dejaría los equipos muy desbalanceados."
+      }
+    }
   }
 }
