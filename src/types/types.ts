@@ -20,4 +20,11 @@ export interface iMatch {
     teamA: iUser[];
     teamB: iUser[];
   };
+  lastPlayerAction?: {
+    type: string;
+    playerIndex: number;
+    reservePlayerMovingUp: iUser | null;
+    spacesLeft: number;
+    timestamp?: number;
+  };
 }

@@ -29,9 +29,9 @@ const DiscardSheetModal = ({ isOpen, setIsOpen }: iDiscardSheetModal) => {
 
   const messageToCopy = () => {
     if (typeof window !== "undefined") {
-      if (matchInfo?.playerList[15]?.name && !backupPlayerIsDown) {
+      if (matchInfo?.playerList.length > 16 && !backupPlayerIsDown) {
         return t("matchPage.modal.message", {
-          reserva: matchInfo?.playerList[15]?.name,
+          reserva: matchInfo?.playerList[16]?.name,
           link: window.location.origin + pathname,
         });
       } else {

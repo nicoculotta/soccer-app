@@ -61,6 +61,16 @@ export const MatchProvider = ({
 
   const handleDeletePlayer = (playerId: string) => {
     if (matchInfo) {
+      // Primero obtener el índice del jugador antes de filtrarlo
+      const playerIndex = matchInfo.playerList.findIndex(
+        (player) => player.uid === playerId
+      );
+      
+      // Obtener información sobre el jugador que se elimina
+      const isPlayerInStartingLineup = playerIndex < 16;
+      const hasReserves = matchInfo.playerList.length > 16;
+      
+      // Filtrar las listas después de obtener la información necesaria
       const playersFiltered = matchInfo.playerList.filter(
         (player) => player.uid !== playerId
       );
@@ -70,16 +80,39 @@ export const MatchProvider = ({
       const playerFilteredInB = matchInfo.teams?.teamB.filter(
         (player) => player.uid !== playerId
       );
-      const playerIndex = matchInfo.playerList.findIndex(
-        (player) => player.uid === playerId
-      );
+      
+      // Identificar el primer jugador de reserva que subirá a titular
+      let reservePlayerMovingUp = null;
+      if (isPlayerInStartingLineup && hasReserves) {
+        // El jugador en el índice 16 es el primer reserva
+        reservePlayerMovingUp = matchInfo.playerList[16];
+      }
+      
+      // Calcular espacios vacantes después de eliminar al jugador
+      // Si quedan menos de 16 jugadores, tendremos espacios disponibles
+      const spacesLeft = Math.max(0, 16 - playersFiltered.length);
+      
+      // Objeto con la información de la acción para guardar en Firebase
+      const lastPlayerAction = {
+        type: 'playerRemoved',
+        playerIndex: playerIndex,
+        reservePlayerMovingUp: reservePlayerMovingUp,
+        spacesLeft: spacesLeft,
+        timestamp: new Date().getTime()
+      };
+    
+      
+      // Actualizar en Firebase
       updateMatchInfo(matchInfo.id, {
         playerList: playersFiltered,
         teams: {
           teamA: playerFilteredInA,
           teamB: playerFilteredInB,
         },
+        lastPlayerAction: lastPlayerAction
       });
+      
+      // Actualizar estado local
       setMatchInfo({
         ...matchInfo,
         playerList: playersFiltered,
@@ -87,13 +120,17 @@ export const MatchProvider = ({
           teamA: playerFilteredInA,
           teamB: playerFilteredInB,
         },
+        lastPlayerAction: lastPlayerAction
       });
+      
       setIsPlayerInList(false);
 
       if (user.uid === playerId) {
         setIsDiscardOpen(!isDiscardOpen);
       }
-      if (playerIndex > 15) {
+      
+      // Decidir si es jugador de reserva o titular para notificaciones
+      if (playerIndex >= 16) {
         setBackupPlayerIsDown(true);
       } else {
         setBackupPlayerIsDown(false);
@@ -102,8 +139,43 @@ export const MatchProvider = ({
   };
 
   const copyLink = () => {
-    const playerListText = createListOfPlayers(matchInfo?.playerList);
-    const enrolledPlayers = `(${matchInfo?.playerList.length}/16)`;
+    if (!matchInfo) return;
+    
+    const playerListText = createListOfPlayers(matchInfo.playerList);
+    const enrolledPlayers = `(${matchInfo.playerList.length}/16)`;
+    
+    let statusMessage = "";
+    
+    // Determinar si hay menos de 16 jugadores en total
+    const totalPlayersCount = matchInfo.playerList.length;
+    const spacesLeft = 16 - totalPlayersCount;
+    
+    // Agregar mensaje según la última acción o el estado actual
+    if (matchInfo.lastPlayerAction && matchInfo.lastPlayerAction.type === 'playerRemoved') {
+      const action = matchInfo.lastPlayerAction;
+      
+      // Caso 1: Jugador titular se dio de baja y no hay reservas
+      if (action.playerIndex < 16 && totalPlayersCount < 16) {
+        statusMessage = `\n\n🔄 ${t("matchPage.statusMessages.missingPlayers", {
+          count: spacesLeft,
+          plural: spacesLeft !== 1 ? 's' : ''
+        })}\n`;
+      } 
+      // Caso 2: Jugador titular se dio de baja y hay reservas que subieron a titular
+      else if (action.playerIndex < 16 && action.reservePlayerMovingUp) {
+        statusMessage = `\n\n🔄 ${t("matchPage.statusMessages.newStarterPlayer", {
+          name: action.reservePlayerMovingUp.name
+        })}\n`;
+      }
+      // Caso 3: Jugador de reserva se dio de baja - sin mensaje especial
+    }
+    // Si no hay acción de jugador pero hay menos de 16 jugadores, mostrar mensaje de espacios disponibles
+    else if (totalPlayersCount < 16) {
+      statusMessage = `\n\n🔄 ${t("matchPage.statusMessages.missingPlayers", {
+        count: spacesLeft,
+        plural: spacesLeft !== 1 ? 's' : ''
+      })}\n`;
+    }
 
     const textToCopy = `\u26BD\u{1F5D2}\uFE0F ${t("matchPage.copyMatchLink", {
       day: matchInfo && formatDayName(matchInfo.day, locale),
@@ -111,7 +183,7 @@ export const MatchProvider = ({
       link: window.location.origin + pathname,
     })}\n\n👤${t("matchPage.playerList", {
       number: enrolledPlayers,
-    })}\n\n${playerListText}`;
+    })}${statusMessage}\n\n${playerListText}`;
 
     navigator.clipboard.writeText(textToCopy);
     setIsCopyLink(true);
@@ -132,6 +204,8 @@ export const MatchProvider = ({
     });
   };
 
+
+  // Copiar lista de equipos negro o blanco
   const copyTeamsList = () => {
     const textTeamA = createListOfPlayers(matchInfo?.teams.teamA);
     const textTeamB = createListOfPlayers(matchInfo?.teams.teamB);

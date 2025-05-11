@@ -48,6 +48,10 @@
     "backup": "Reserva",
     "copyMatchLink": "Lista para el dia { day } a las { time }hs - { link }",
     "playerList": "{number} Jugadores anotados:",
+    "statusMessages": {
+      "missingPlayers": "Faltan {count} jugador{plural} para completar el equipo.",
+      "newStarterPlayer": "{name} ahora forma parte del equipo titular."
+    },
     "modal": {
       "title": "¿Estás seguro que no quieres jugar?",
       "text": "Entrará alguien de la reserva, por favor copia el mensaje para avisar por whatsapp al grupo.",

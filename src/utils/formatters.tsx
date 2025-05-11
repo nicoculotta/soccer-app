@@ -62,21 +62,32 @@ export const formatDayName = (day: string, locale: string) => {
 export const createListOfPlayers = (list: iUser[] | undefined) => {
   let playersToText = "";
 
-  if (list && list?.length < 16) {
-    for (let i = 0; i < list?.length; i++) {
+  // Si no hay lista o está vacía, retornar string vacío
+  if (!list || list.length === 0) {
+    return playersToText;
+  }
+
+  // Caso: menos de 16 jugadores
+  if (list.length < 16) {
+    // Listar los jugadores existentes
+    for (let i = 0; i < list.length; i++) {
       playersToText += `${i + 1}. ${list[i].name}\n`;
     }
-  }
-  if (list && list.length >= 16) {
+    
+  } else {
+    // Listar los primeros 16 jugadores (titulares)
     for (let i = 0; i < 16; i++) {
       playersToText += `${i + 1}. ${list[i].name}\n`;
     }
+    
+    // Si hay más de 16 jugadores, mostrar sección de reservas
     if (list.length > 16) {
       playersToText += `\nReservas\n\n`;
-    }
-    for (let i = 16; i < list.length; i++) {
-      playersToText += `${i + 1}. ${list[i].name}\n`;
+      for (let i = 16; i < list.length; i++) {
+        playersToText += `${i + 1}. ${list[i].name}\n`;
+      }
     }
   }
+  
   return playersToText;
 };

@@ -123,7 +123,31 @@ export const updateMatchInfo = async (uid: string, data: any) => {
   try {
     const collectionRef = collection(db, "matches");
     const docRef = doc(collectionRef, uid);
-    await setDoc(docRef, data, { merge: true });
+    
+    // Si estamos actualizando las equipos, necesitamos asegurarnos de mantener la estructura correcta
+    if (data.teams) {
+      const currentDoc = await getDoc(docRef);
+      const currentData = currentDoc.data() as iMatch;
+      
+      // Fusionar los equipos correctamente
+      const teamA = data.teams.teamA || currentData.teams.teamA;
+      const teamB = data.teams.teamB || currentData.teams.teamB;
+      
+      // Actualizar con la estructura correcta
+      await setDoc(docRef, 
+        { 
+          ...data,
+          teams: {
+            teamA,
+            teamB
+          } 
+        }, 
+        { merge: true }
+      );
+    } else {
+      // Actualización normal si no tocamos los equipos
+      await setDoc(docRef, data, { merge: true });
+    }
   } catch (error) {
     console.error("Error updating match:", error);
     throw error;
