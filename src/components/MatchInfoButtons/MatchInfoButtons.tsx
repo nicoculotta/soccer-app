@@ -67,7 +67,7 @@ const MatchInfoButtons = () => {
               {isCopyLink && <Check size={20} className="ml-2" />}
             </Button>
           </div>
-          {user.role === "admin" || user.role === "super" && (
+          {(user.role === "admin" || user.role === "super") && (
             <Button className="flex-1" variant={"secondary"} asChild>
               <Link href={`${pathname}/create`}>
                 <UsersRound size={20} className="mr-2" />
