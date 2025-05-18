@@ -10,6 +10,12 @@ const generateRandomName = () => {
     "Henry",
     "Ivy",
     "Jack",
+    "Liam",
+    "Mia",
+    "Noah",
+    "Olivia",
+    "Parker",
+    "Quinn",
   ];
   const surnames = [
     "Smith",
@@ -22,6 +28,13 @@ const generateRandomName = () => {
     "Wilson",
     "Moore",
     "Taylor",
+    "Anderson",
+    "Thomas",
+    "Jackson",
+    "White",
+    "Harris",
+    "Martin",
+    "Thompson",
   ];
 
   const randomName = names[Math.floor(Math.random() * names.length)];

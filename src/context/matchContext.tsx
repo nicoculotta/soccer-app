@@ -215,9 +215,24 @@ export const MatchProvider = ({
       return;
     }
     
-    // Garantizar que los equipos son arrays válidos
-    const teamA = Array.isArray(matchInfo.teams.teamA) ? matchInfo.teams.teamA : [];
-    const teamB = Array.isArray(matchInfo.teams.teamB) ? matchInfo.teams.teamB : [];
+    // Garantizar que los equipos son arrays válidos y filtrar solo jugadores titulares
+    const teamA = Array.isArray(matchInfo.teams.teamA) 
+      ? matchInfo.teams.teamA.filter(player => {
+          // Encontrar el índice del jugador en la lista completa
+          const playerIndex = matchInfo.playerList.findIndex(p => p.uid === player.uid);
+          // Solo incluir si está en los primeros 16 (titulares)
+          return playerIndex >= 0 && playerIndex < 16;
+        }) 
+      : [];
+    
+    const teamB = Array.isArray(matchInfo.teams.teamB) 
+      ? matchInfo.teams.teamB.filter(player => {
+          // Encontrar el índice del jugador en la lista completa  
+          const playerIndex = matchInfo.playerList.findIndex(p => p.uid === player.uid);
+          // Solo incluir si está en los primeros 16 (titulares)
+          return playerIndex >= 0 && playerIndex < 16;
+        }) 
+      : [];
     
     // Crear texto para cada equipo
     const textTeamA = createListOfPlayers(teamA);
@@ -225,7 +240,7 @@ export const MatchProvider = ({
 
     const textToCopy = `\u{1F3F3}\uFE0F ${t(
       "createPage.titleWhite"
-    )} (${teamA.length})\n\n${textTeamA}\n\n\u{1F3F4}${t(
+    )} (${teamA.length})\n\n${textTeamA}\n\n\u{1F3F4} ${t(
       "createPage.titleBlack"
     )} (${teamB.length})\n\n${textTeamB}`;
 

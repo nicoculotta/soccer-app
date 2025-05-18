@@ -14,7 +14,7 @@ const MatchPlayerList = () => {
   const { matchInfo, isDiscardOpen, setIsDiscardOpen, setMatchInfo } =
     useMatch();
 
-  const morePlayers = generateFakeUsers(20);
+  const morePlayers = generateFakeUsers(30);
 
   const addFakePlayers = () => {
     const players = matchInfo.playerList;
